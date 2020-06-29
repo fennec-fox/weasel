@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  redis:
+    image: redis:5.0.3
+    ports:
+      - "6380:6379"
+
+  mysql:
+    image: mysql:5.7.28
+    command: "mysqld --character-set-server=utf8"
+    environment:
+      MYSQL_ROOT_PASSWORD: test123
+      MYSQL_DATABASE: weasel
+      MYSQL_USER: sample
+      MYSQL_PASSWORD: test123
+    ports:
+      - "3307:3306"
+
+  mongo:
+    image: mongo:4.0
+    ports:
+      - "27018:27017"
