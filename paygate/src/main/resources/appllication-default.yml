@@ -1,0 +1,6 @@
+app:
+  pay-gate:
+    naver-pay:
+      url: https://apis.naver.com
+      partnerId: null
+      client-secret: null
