@@ -1,0 +1,4 @@
+app:
+  security:
+    user-lock:
+      ttl: 300 # second
