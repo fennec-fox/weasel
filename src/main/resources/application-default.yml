@@ -1,0 +1,72 @@
+logging:
+  level:
+    com.kakaomobility.booking.api.config.RequestResponseLogFilter: info
+    org.springframework.boot.actuate: off
+    org.springframework.web: debug
+    org.springframework.boot: info
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.transaction: DEBUG
+    org.hibernate.SQL: debug
+    org.hibernate.tool.schema: error
+    com.zaxxer.hikari: error
+    io.swagger.models.parameters.AbstractSerializableParameter: error
+
+server:
+  error:
+    include-stacktrace: always
+    whitelabel:
+      enabled: false
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+  port: 6300
+
+spring:
+  flyway:
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: create
+      use-new-id-generator-mappings: false
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      org:
+        hibernate:
+          envers:
+            revision_field_name: revision_id
+            audit_table_suffix: _History
+            audit_strategy: org.hibernate.envers.strategy.ValidityAuditStrategy
+            audit_strategy_validity_end_rev_field_name: next_revision_id
+            audit_strategy_validity_store_revend_timestamp: true
+            audit_strategy_validity_revend_timestamp_field_name: revision_end_at
+            global_with_modified_flag: true
+      hibernate:
+        use_sql_comments: true
+        default_batch_fetch_size: 50
+        enable_lazy_load_no_trans: false
+        format_sql: true
+        dialect:
+          storage_engine: innodb
+    open-in-view: false
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3307/weasel?serverTimezone=Asia/Seoul
+    username: sample
+    password: test123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connection-test-query: SELECT 1 FROM DUAL
+      minimum-idle: 3
+      maximum-pool-size: 30
+      pool-name: SpringBootHikariCP
+
+  task:
+    execution:
+      thread-name-prefix: Noti-
+      pool:
+        core-size: 10
+        max-size: 50
+        queue-capacity: 100
+        keep-alive: 1s
