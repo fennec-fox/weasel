@@ -14,11 +14,10 @@ internal class KakaoPayDummyClientTest {
     }
     private val kakaoPayClient: KakaoPayClient = KakaoPayDummyClient(dummy)
 
-
     @Test
     fun prepare() {
-        //Given
-        val token = PayToken("1","1,",1,1000)
+        // Given
+        val token = PayToken("1", "1,", 1, 1000)
         val request = KakaoPayResources.Request.Prepare(
             token,
             "1",
@@ -29,15 +28,15 @@ internal class KakaoPayDummyClientTest {
             null,
             null
         )
-        //When
-        val reply = kakaoPayClient.prepare(request)
-        //Then
+        // When
+        // Then
+        kakaoPayClient.prepare(request)
     }
 
     @Test
     fun pay() {
-        //Given
-        val token = PayToken("1","1,",1,1000)
+        // Given
+        val token = PayToken("1", "1,", 1, 1000)
         val tid = "1"
         val request = KakaoPayResources.Request.Pay(
             token,
@@ -46,9 +45,9 @@ internal class KakaoPayDummyClientTest {
             "1",
             "1"
         )
-        //When
+        // When
         val reply = kakaoPayClient.pay(request)
-        //Then
+        // Then
         reply.tid shouldBe tid
     }
 }

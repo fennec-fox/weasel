@@ -21,7 +21,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @Testcontainers
 internal class UserLockTest {
     private val log = LoggerFactory.getLogger(this::class.java)
-    private lateinit var userLockRedisTemplate:RedisTemplate<String,String>
+    private lateinit var userLockRedisTemplate: RedisTemplate<String, String>
     private val securityEnvironment = SecurityEnvironment().apply {
         userLock.ttl = 5
     }
@@ -30,7 +30,7 @@ internal class UserLockTest {
     private val redis: GenericContainer<*> = GenericContainer<Nothing>("redis:5.0.3-alpine").withExposedPorts(6379)
 
     @BeforeEach
-    fun beforeEach(){
+    fun beforeEach() {
         redis.start()
         log.info("BeforeAll start redis ${redis.getHost()} ${redis.getFirstMappedPort()}")
 
@@ -54,12 +54,12 @@ internal class UserLockTest {
 
     @Test
     fun lock() {
-        //Given
+        // Given
         val userId = "fennec-fox"
         val userLock = UserLock(userLockRedisTemplate, securityEnvironment)
-        //When
+        // When
         userLock.lock(userId)
-        //Then
+        // Then
         val value = this.userLockRedisTemplate.opsForValue().get(userId)
 
         value shouldNotBe null
@@ -67,37 +67,37 @@ internal class UserLockTest {
 
     @Test
     fun unlock() {
-        //Given
+        // Given
         val userId = "fennec-fox-delete"
         val userLock = UserLock(userLockRedisTemplate, securityEnvironment)
-        //When
+        // When
         userLock.lock(userId)
         userLock.unlock(userId)
-        //Then
+        // Then
         val value = this.userLockRedisTemplate.opsForValue().get(userId)
         value shouldBe null
     }
 
     @Test
     fun isAvailable() {
-        //Given
+        // Given
         val userId = "fennec-fox-avail"
         val userLock = UserLock(userLockRedisTemplate, securityEnvironment)
-        //When
+        // When
         userLock.lock(userId)
 
-        //Then
+        // Then
         val isAvailable = userLock.isAvailable(userId)
-        //Then
+        // Then
         isAvailable shouldBe false
     }
 
     @Test
     fun duplicatedError() {
-        //Given
+        // Given
         val userId = "fennec-fox-duplicate"
         val userLock = UserLock(userLockRedisTemplate, securityEnvironment)
-        //When
+        // When
         userLock.lock(userId)
         // Then
         Assertions.assertThrows(UserLockException::class.java) {
@@ -107,14 +107,14 @@ internal class UserLockTest {
 
     @Test
     fun ttlCheck() {
-        //Given
+        // Given
         val userId = "fennec-fox-ttl"
         securityEnvironment.userLock.ttl = 1
         val userLock = UserLock(userLockRedisTemplate, securityEnvironment)
-        //When
+        // When
         userLock.lock(userId)
         Thread.sleep(2000)
-        //Then
+        // Then
         val isAvailable = userLock.isAvailable(userId)
         isAvailable shouldBe true
     }

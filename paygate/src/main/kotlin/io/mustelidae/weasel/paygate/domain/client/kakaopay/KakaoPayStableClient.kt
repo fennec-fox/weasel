@@ -6,8 +6,8 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
-import io.mustelidae.weasel.paygate.config.PayGateEnvironment
 import io.mustelidae.weasel.paygate.config.PayGateClientException
+import io.mustelidae.weasel.paygate.config.PayGateEnvironment
 import io.mustelidae.weasel.paygate.utils.ClientSupport
 import io.mustelidae.weasel.paygate.utils.Jackson
 import org.slf4j.LoggerFactory

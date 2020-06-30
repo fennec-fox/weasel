@@ -4,6 +4,8 @@ import com.fasterxml.jackson.module.kotlin.convertValue
 import io.mustelidae.weasel.paygate.config.PayGateClientException
 import io.mustelidae.weasel.paygate.utils.Jackson
 import io.mustelidae.weasel.security.domain.token.PayToken
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 internal class NaverPayResources {
 
@@ -160,6 +162,10 @@ internal class NaverPayResources {
             val cancelYmdt: String,
             /* 추가로 취소 가능한 전체 잔여 결제 금액(primaryPayRestAmount + npointRestAmount) */
             val totalRestAmount: Long
-        )
+        ) {
+            fun getCanceledDate(): LocalDateTime {
+                return LocalDateTime.parse(this.cancelYmdt, DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
+            }
+        }
     }
 }

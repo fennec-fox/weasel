@@ -1,10 +1,9 @@
 package io.mustelidae.weasel.paygate.domain.paygate
 
-import io.mustelidae.weasel.paygate.config.PayGateClientException
 import io.mustelidae.weasel.paygate.config.PayGateException
 import io.mustelidae.weasel.paygate.domain.paygate.repository.PayGateRepository
-import org.springframework.stereotype.Service
 import javax.transaction.Transactional
+import org.springframework.stereotype.Service
 
 @Service
 @Transactional
@@ -17,13 +16,13 @@ class PayGateManager(
 
         val isExist = payGateFinder.hasPayGate(payGate.company, payGate.payMethod, payGate.type)
 
-        if(isExist)
+        if (isExist)
             throw PayGateException("이미 해당 회사의 결제 수단 및 타입이 존재 합니다.")
 
         return payGateRepository.save(payGate).id!!
     }
 
-    fun modify(id: Long, name:String, ratio: Double) {
+    fun modify(id: Long, name: String, ratio: Double) {
         val payGate = payGateFinder.findOne(id)
 
         payGate.apply {

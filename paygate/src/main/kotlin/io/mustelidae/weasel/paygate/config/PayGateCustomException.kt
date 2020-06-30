@@ -6,4 +6,4 @@ class PayGateClientException(message: String, val canRetry: Boolean, val causeBy
 
 class NotSupportPayMethodException(message: String) : RuntimeException(message)
 
-class PayGateException(message: String): RuntimeException(message)
+class PayGateException(message: String) : RuntimeException(message)
