@@ -71,7 +71,7 @@ allprojects {
         implementation("com.github.kittinunf.fuel:fuel:2.2.2")
         implementation("com.github.kittinunf.fuel:fuel-jackson:2.2.2")
 
-        implementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
+        testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
 
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
         implementation("org.springframework:spring-context")
