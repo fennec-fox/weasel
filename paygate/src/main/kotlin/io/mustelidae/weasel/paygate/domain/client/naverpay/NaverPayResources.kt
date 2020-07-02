@@ -1,15 +1,39 @@
 package io.mustelidae.weasel.paygate.domain.client.naverpay
 
 import com.fasterxml.jackson.module.kotlin.convertValue
+import io.mustelidae.weasel.paygate.config.PayGateCertifyException
 import io.mustelidae.weasel.paygate.config.PayGateClientException
+import io.mustelidae.weasel.paygate.domain.client.CertifyPayGateAttribute
 import io.mustelidae.weasel.paygate.utils.Jackson
 import io.mustelidae.weasel.security.domain.token.PayToken
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-internal class NaverPayResources {
+class NaverPayResources {
 
-    class Request {
+    class CertifyAttribute : CertifyPayGateAttribute {
+        lateinit var resultCode: String
+        lateinit var paymentId: String
+        var resultMessage: String? = null
+
+        override fun validOrThrow() {
+            if (resultCode == "Success")
+                return
+
+            val message = when (resultMessage ?: "Fail") {
+                "userCancel" -> "결제를 취소하였습니다."
+                "OwnerAuthFail" -> "본인 카드 인증에 실패하였습니다. 네이버 로그인 계정과 카드의 명의자가 다릅니다."
+                "paymentTimeExpire" -> "결제 가능 시간을 초과하여 결제가 실패했어요. 다시 결제를 시작해주세요."
+                else -> {
+                    "네이버 페이 인증에 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요."
+                }
+            }
+
+            throw PayGateCertifyException(message)
+        }
+    }
+
+    internal class Request {
         data class Pay(
             val token: PayToken,
             val storeId: String,
@@ -27,7 +51,7 @@ internal class NaverPayResources {
         )
     }
 
-    class Reply(
+    internal class Reply(
         content: String
     ) {
         val jackson = Jackson.getMapper()
@@ -140,7 +164,11 @@ internal class NaverPayResources {
                 val extraDeduction: Boolean,
                 /* 이용완료일(yyyymmdd) */
                 val useCfmYmdt: String
-            )
+            ) {
+                fun getPaidDate(): LocalDateTime {
+                    return LocalDateTime.parse(this.admissionYmdt, localDateTimePattern)
+                }
+            }
         }
 
         data class Canceled(
@@ -164,8 +192,12 @@ internal class NaverPayResources {
             val totalRestAmount: Long
         ) {
             fun getCanceledDate(): LocalDateTime {
-                return LocalDateTime.parse(this.cancelYmdt, DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
+                return LocalDateTime.parse(this.cancelYmdt, localDateTimePattern)
             }
         }
+    }
+
+    companion object {
+        internal val localDateTimePattern = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
     }
 }

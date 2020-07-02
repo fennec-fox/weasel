@@ -10,7 +10,7 @@ import io.mustelidae.weasel.paygate.domain.paygate.PayGateFinder
 import io.mustelidae.weasel.paygate.domain.paygate.aFixture
 import org.junit.jupiter.api.Test
 
-internal class PayGateCancelInteractionTest {
+internal class PayGateInteractionTest {
 
     private val payGateFinder: PayGateFinder = mockk()
     private val payGateEnvironment = PayGateEnvironment().apply {
@@ -20,7 +20,7 @@ internal class PayGateCancelInteractionTest {
     @Test
     fun `cancel$paygate`() {
         // Given
-        val payGateCancelInteraction = PayGateCancelInteraction(payGateFinder, payGateEnvironment)
+        val payGateInteraction = PayGateInteraction(payGateFinder, payGateEnvironment)
         val payGate = PayGate.aFixture(PayGate.Company.INICIS)
         val cancel = PayGateResources.Cancel(
             "1234",
@@ -29,7 +29,7 @@ internal class PayGateCancelInteractionTest {
             "is test"
         )
         // When
-        val canceled = payGateCancelInteraction.cancel(payGate, cancel)
+        val canceled = payGateInteraction.cancel(payGate.id!!, cancel)
         // Then
         canceled.asClue {
             it.updatedTransactionId shouldBe null
@@ -41,7 +41,7 @@ internal class PayGateCancelInteractionTest {
     @Test
     fun `partialCancel$paygate`() {
         // Given
-        val payGateCancelInteraction = PayGateCancelInteraction(payGateFinder, payGateEnvironment)
+        val payGateInteraction = PayGateInteraction(payGateFinder, payGateEnvironment)
         val payGate = PayGate.aFixture(PayGate.Company.INICIS)
         val partialCancel = PayGateResources.PartialCancel(
             "5678",
@@ -51,7 +51,7 @@ internal class PayGateCancelInteractionTest {
             "is test"
         )
         // When
-        val canceled = payGateCancelInteraction.partialCancel(payGate, partialCancel)
+        val canceled = payGateInteraction.partialCancel(payGate.id!!, partialCancel)
         // Then
         canceled.asClue {
             it.updatedTransactionId shouldNotBe null

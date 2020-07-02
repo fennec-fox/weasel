@@ -42,7 +42,6 @@ internal class KakaoPayDummyClientTest {
             token,
             tid,
             "1",
-            "1",
             "1"
         )
         // When

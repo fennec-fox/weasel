@@ -2,14 +2,34 @@ package io.mustelidae.weasel.paygate.domain.client.inicis
 
 import io.mustelidae.weasel.paygate.common.PayMethod
 import io.mustelidae.weasel.paygate.config.NotSupportPayMethodException
+import io.mustelidae.weasel.paygate.config.PayGateCertifyException
+import io.mustelidae.weasel.paygate.domain.client.CertifyPayGateAttribute
 import io.mustelidae.weasel.paygate.domain.client.inicis.InicisPayType.CARD
 import io.mustelidae.weasel.security.domain.token.PayToken
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-internal class InicisResources {
+class InicisResources {
 
-    class Request {
+    @Suppress("PropertyName")
+    class CertifyCreditAttribute : CertifyPayGateAttribute {
+        lateinit var P_STATUS: String // 인증 상태 00 외 모두 실패
+        lateinit var P_RMESG1: String // 결과 메시지
+        var P_TID: String? = null // 거래번호 (성공시에만 반환) <- INFO: 이 거래 번호는 인증용 거래번호임.. 실제 결제 거래번호가 아님. -_-;
+        lateinit var P_REQ_URL: String // 승인요청 URL
+        lateinit var P_NOTI: String // 거래 요청 시 넘긴 NOTI값
+        var P_AMT: Long = 0L // 거래 금액
+
+        override fun validOrThrow() {
+            if (P_STATUS != "00")
+                throw PayGateCertifyException(P_RMESG1)
+
+            if (P_TID.isNullOrEmpty())
+                throw PayGateCertifyException("PG 인증에 실패하였습니다.")
+        }
+    }
+
+    internal class Request {
         data class Pay(
             val token: PayToken,
             val tid: String,
@@ -26,7 +46,7 @@ internal class InicisResources {
         )
     }
 
-    class Reply {
+    internal class Reply {
         data class Paid(
             val userId: String,
             val orderId: String,
@@ -40,16 +60,17 @@ internal class InicisResources {
             var credit: Credit? = null
 
             data class Credit(
+                val code: String,
                 val number: String,
                 val canPartialCancel: Boolean,
                 val isInterestFree: Boolean,
                 val isCheckCard: Boolean,
+                val interestMonth: String,
                 val applyPrice: Long,
+                val approveCode: String,
                 val name: String? = null,
                 val issuer: String? = null,
-                val code: String? = null,
                 val purchaseCode: String? = null,
-                val interestMonth: String? = null,
                 val cardPoint: Long? = null
             )
 
@@ -114,16 +135,17 @@ internal class InicisResources {
                             val isCheckCard = (responseMap.getValue("P_CARD_CHECKFLAG") == "1")
 
                             paid.credit = Credit(
+                                responseMap.getValue("P_CARD_PRTC_CODE"),
                                 responseMap.getValue("P_CARD_NUM"),
                                 canPartialCancel,
                                 isInterestFree,
                                 isCheckCard,
+                                responseMap.getValue("P_RMESG2"),
                                 responseMap.getValue("P_CARD_APPLPRICE").toLong(),
+                                responseMap.getValue("P_AUTH_NO"),
                                 responseMap["P_FN_NM"],
                                 responseMap["P_CARD_ISSUER_CODE"],
-                                responseMap["P_CARD_PRTC_CODE"],
                                 responseMap["P_CARD_PURCHASE_CODE"],
-                                responseMap["P_RMESG2"],
                                 responseMap["P_CARD_USEPOINT"]?.toLong()
                             )
                         }

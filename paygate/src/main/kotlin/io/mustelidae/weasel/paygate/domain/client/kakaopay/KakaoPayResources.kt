@@ -1,10 +1,23 @@
 package io.mustelidae.weasel.paygate.domain.client.kakaopay
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import io.mustelidae.weasel.paygate.config.PayGateCertifyException
+import io.mustelidae.weasel.paygate.domain.client.CertifyPayGateAttribute
 import io.mustelidae.weasel.security.domain.token.PayToken
 import java.time.LocalDateTime
 
 class KakaoPayResources {
+
+    class CertifyAttribute : CertifyPayGateAttribute {
+        lateinit var tid: String
+        @Suppress("PropertyName")
+        lateinit var pg_token: String
+
+        override fun validOrThrow() {
+            if (pg_token.isEmpty())
+                throw PayGateCertifyException("카카오 페이 인증 시 문제가 발생 하였습니다. 잠시 후 다시 시도해 주세요.")
+        }
+    }
 
     class Request {
 
@@ -15,15 +28,14 @@ class KakaoPayResources {
             val itemId: String,
             val itemCount: Int,
             val approvalUrl: String,
-            val cancelUrl: String?,
-            val failUrl: String?
+            val cancelUrl: String? = null,
+            val failUrl: String? = null
         )
 
         data class Pay(
             val token: PayToken,
             val tid: String,
             val storeId: String,
-            val storeKey: String,
             val kakaoPayToken: String
         )
 
