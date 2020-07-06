@@ -45,15 +45,38 @@ class PayGateResources {
 
     data class PrepareProduct(
         val token: PayToken,
-        val goods: List<Good>
+        val goods: List<Good>,
+        val device: Device
     ) {
         data class Good(
+            val id: String,
             val name: String,
+            val quantity: Int,
             val amount: Long
         )
+
+        var approvalUrl: String? = null
+            private set
+        var cancelUrl: String? = null
+            private set
+        var failUrl: String? = null
+            private set
+
+        fun addPostBackUrl(approvalUrl: String, cancelUrl: String? = null, failUrl: String? = null) {
+            this.approvalUrl = approvalUrl
+            this.cancelUrl = cancelUrl
+            this.failUrl = failUrl
+        }
+
+        enum class Device {
+            APP, MOBILE_WEB, PC_WEB, ANY
+        }
     }
 
-    data class PreparedPayment(
-        val transactionId: String
+    data class Prepared(
+        val transactionId: String,
+        val redirectUrl: String? = null,
+        val androidAppScheme: String? = null,
+        val iosAppScheme: String? = null
     )
 }

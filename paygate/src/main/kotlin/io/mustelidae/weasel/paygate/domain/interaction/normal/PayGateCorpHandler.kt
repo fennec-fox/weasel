@@ -2,10 +2,6 @@ package io.mustelidae.weasel.paygate.domain.interaction.normal
 
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
 import io.mustelidae.weasel.paygate.domain.client.ClientHandler
-import io.mustelidae.weasel.paygate.domain.interaction.normal.InicisPayGateCorp
-import io.mustelidae.weasel.paygate.domain.interaction.normal.KakaoPayPayGateCorp
-import io.mustelidae.weasel.paygate.domain.interaction.normal.NaverPayPayGateCorp
-import io.mustelidae.weasel.paygate.domain.interaction.normal.PayGateCorp
 import io.mustelidae.weasel.paygate.domain.paygate.PayGate
 import io.mustelidae.weasel.paygate.domain.paygate.PayGateFinder
 
