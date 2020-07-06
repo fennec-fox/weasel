@@ -3,6 +3,7 @@ package io.mustelidae.weasel.paygate.domain.interaction
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
 import io.mustelidae.weasel.paygate.config.PayGateException
 import io.mustelidae.weasel.paygate.domain.client.CertifyPayGateAttribute
+import io.mustelidae.weasel.paygate.domain.interaction.normal.PayGateCorpHandler
 import io.mustelidae.weasel.paygate.domain.paygate.PayGateFinder
 import io.mustelidae.weasel.security.domain.token.PayToken
 import org.springframework.stereotype.Service
@@ -12,7 +13,11 @@ class PayGateInteraction(
     private val payGateFinder: PayGateFinder,
     payGateEnvironment: PayGateEnvironment
 ) {
-    private val payGateCompanyHandler = PayGateCorpHandler(payGateFinder, payGateEnvironment)
+    private val payGateCompanyHandler =
+        PayGateCorpHandler(
+            payGateFinder,
+            payGateEnvironment
+        )
 
     fun payByTokenPayGateId(token: PayToken, certifyPayGateAttribute: CertifyPayGateAttribute): PayGateResources.Paid {
         val payGateCorp = payGateCompanyHandler.getCorp(token.payGateId)

@@ -1,6 +1,7 @@
-package io.mustelidae.weasel.paygate.domain.interaction
+package io.mustelidae.weasel.paygate.domain.interaction.normal
 
 import io.mustelidae.weasel.paygate.domain.client.CertifyPayGateAttribute
+import io.mustelidae.weasel.paygate.domain.interaction.PayGateResources
 import io.mustelidae.weasel.paygate.domain.paygate.PayGate
 import io.mustelidae.weasel.security.domain.token.PayToken
 

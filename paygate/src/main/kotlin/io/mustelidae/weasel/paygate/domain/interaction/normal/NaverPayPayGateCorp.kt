@@ -1,4 +1,4 @@
-package io.mustelidae.weasel.paygate.domain.interaction
+package io.mustelidae.weasel.paygate.domain.interaction.normal
 
 import io.mustelidae.weasel.paygate.common.BankCode
 import io.mustelidae.weasel.paygate.common.CreditCode
@@ -6,6 +6,7 @@ import io.mustelidae.weasel.paygate.config.PayGateException
 import io.mustelidae.weasel.paygate.domain.client.CertifyPayGateAttribute
 import io.mustelidae.weasel.paygate.domain.client.naverpay.NaverPayClient
 import io.mustelidae.weasel.paygate.domain.client.naverpay.NaverPayResources
+import io.mustelidae.weasel.paygate.domain.interaction.PayGateResources
 import io.mustelidae.weasel.paygate.domain.method.BankTransfer
 import io.mustelidae.weasel.paygate.domain.method.CreditCard
 import io.mustelidae.weasel.paygate.domain.method.MethodInfo
@@ -98,7 +99,10 @@ internal class NaverPayPayGateCorp(
                 cancel.cause
             )
         ).detail
-        return PayGateResources.Canceled(canceled.getCanceledDate(), 0)
+        return PayGateResources.Canceled(
+            canceled.getCanceledDate(),
+            0
+        )
     }
 
     override fun partialCancel(partialCancel: PayGateResources.PartialCancel): PayGateResources.Canceled {
@@ -114,7 +118,10 @@ internal class NaverPayPayGateCorp(
             partialCancel.currentAmount
         ).detail
 
-        return PayGateResources.Canceled(canceled.getCanceledDate(), canceled.totalRestAmount)
+        return PayGateResources.Canceled(
+            canceled.getCanceledDate(),
+            canceled.totalRestAmount
+        )
     }
 
     override fun loadAdjustment() {
