@@ -1,4 +1,4 @@
-package io.mustelidae.weasel.paygate.domain.interaction
+package io.mustelidae.weasel.paygate.domain.payment
 
 import io.kotlintest.matchers.asClue
 import io.kotlintest.shouldBe

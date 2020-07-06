@@ -1,4 +1,4 @@
-package io.mustelidae.weasel.paygate.domain.interaction.normal
+package io.mustelidae.weasel.paygate.domain.payment.normal
 
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
 import io.mustelidae.weasel.paygate.domain.client.ClientHandler

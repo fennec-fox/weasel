@@ -1,10 +1,10 @@
-package io.mustelidae.weasel.paygate.domain.interaction
+package io.mustelidae.weasel.paygate.domain.payment
 
 import io.kotlintest.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
-import io.mustelidae.weasel.paygate.domain.interaction.PayGateResources.PrepareProduct
+import io.mustelidae.weasel.paygate.domain.payment.PayGateResources.PrepareProduct
 import io.mustelidae.weasel.paygate.domain.paygate.PayGate
 import io.mustelidae.weasel.paygate.domain.paygate.PayGateFinder
 import io.mustelidae.weasel.paygate.domain.paygate.aFixture

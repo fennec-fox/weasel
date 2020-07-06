@@ -1,4 +1,4 @@
-package io.mustelidae.weasel.paygate.domain.interaction
+package io.mustelidae.weasel.paygate.domain.payment
 
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
 import io.mustelidae.weasel.paygate.config.PayGateException

@@ -1,10 +1,10 @@
-package io.mustelidae.weasel.paygate.domain.interaction.normal
+package io.mustelidae.weasel.paygate.domain.payment.normal
 
 import io.mustelidae.weasel.paygate.common.CreditCode
 import io.mustelidae.weasel.paygate.domain.client.CertifyPayGateAttribute
 import io.mustelidae.weasel.paygate.domain.client.kakaopay.KakaoPayClient
 import io.mustelidae.weasel.paygate.domain.client.kakaopay.KakaoPayResources
-import io.mustelidae.weasel.paygate.domain.interaction.PayGateResources
+import io.mustelidae.weasel.paygate.domain.payment.PayGateResources
 import io.mustelidae.weasel.paygate.domain.method.CreditCard
 import io.mustelidae.weasel.paygate.domain.method.KakaoPayMoney
 import io.mustelidae.weasel.paygate.domain.method.MethodInfo

@@ -1,4 +1,4 @@
-package io.mustelidae.weasel.paygate.domain.interaction
+package io.mustelidae.weasel.paygate.domain.payment
 
 import io.mustelidae.weasel.paygate.domain.method.MethodInfo
 import io.mustelidae.weasel.security.domain.token.PayToken
