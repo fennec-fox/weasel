@@ -32,8 +32,6 @@ plugins {
     id("com.avast.gradle.docker-compose") version "0.12.1"
 }
 
-group = "io.mustelidae"
-
 allprojects {
     version = "1.0-SNAPSHOT"
 
@@ -81,7 +79,45 @@ allprojects {
         testImplementation("org.junit.jupiter:junit-jupiter-api")
         testImplementation("org.junit.jupiter:junit-jupiter-engine")
     }
+
+    tasks.getByName<Jar>("jar") {
+        enabled = true
+    }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
+
+        addTestListener(object : TestListener {
+            override fun beforeSuite(suite: TestDescriptor) {}
+            override fun beforeTest(testDescriptor: TestDescriptor) {}
+            override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) {}
+            override fun afterSuite(suite: TestDescriptor, result: TestResult) {
+                if (suite.parent == null) {
+                    val output =
+                        "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                    val startItem = "|  "
+                    val endItem = "  |"
+                    val repeatLength = startItem.length + output.length + endItem.length
+                    println("\n${"-".repeat(repeatLength)}\n|  $output  |\n${"-".repeat(repeatLength)}")
+                }
+            }
+        })
+    }
+
+    tasks.withType<KotlinCompile>().all {
+        kotlinOptions {
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+            jvmTarget = "1.8"
+        }
+    }
+
+    sourceSets {
+        getByName("main").java.srcDirs("src/main/kotlin")
+        getByName("test").java.srcDirs("src/test/kotlin")
+    }
 }
+
+group = "io.mustelidae"
 
 dependencies {
 
@@ -122,37 +158,6 @@ allOpen {
     annotation("javax.persistence.Embeddable")
 }
 
-sourceSets {
-    getByName("main").java.srcDirs("src/main/kotlin")
-    getByName("test").java.srcDirs("src/test/kotlin")
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
-
-    addTestListener(object : TestListener {
-        override fun beforeSuite(suite: TestDescriptor) {}
-        override fun beforeTest(testDescriptor: TestDescriptor) {}
-        override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) {}
-        override fun afterSuite(suite: TestDescriptor, result: TestResult) {
-            if (suite.parent == null) {
-                val output =
-                    "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
-                val startItem = "|  "
-                val endItem = "  |"
-                val repeatLength = startItem.length + output.length + endItem.length
-                println("\n${"-".repeat(repeatLength)}\n|  $output  |\n${"-".repeat(repeatLength)}")
-            }
-        }
-    })
-}
-
-tasks.withType<KotlinCompile>().all {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "1.8"
-    }
-}
 
 dockerCompose {
     // settings as usual
