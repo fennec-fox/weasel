@@ -116,6 +116,6 @@ internal class NaverPayPayGateCorp(
     }
 
     override fun loadAdjustment() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 }

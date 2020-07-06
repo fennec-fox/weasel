@@ -97,6 +97,6 @@ internal class KakaoPayPayGateCorp(
     }
 
     override fun loadAdjustment() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 }

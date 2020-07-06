@@ -105,6 +105,6 @@ internal class InicisPayGateCorp(
     }
 
     override fun loadAdjustment() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 }
