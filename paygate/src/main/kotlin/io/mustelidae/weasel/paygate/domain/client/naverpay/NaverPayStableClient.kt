@@ -72,8 +72,8 @@ internal class NaverPayStableClient(
         run {
             val remainAmt = cancellableAmount - request.cancelAmount
 
-            if (canceled.totalRestAmount != remainAmt)
-                log.error("Mismatch naver pay totalRestAmount(${canceled.totalRestAmount}), remainAmount($remainAmt)")
+            if (canceled.detail.totalRestAmount != remainAmt)
+                log.error("Mismatch naver pay totalRestAmount(${canceled.detail.totalRestAmount}), remainAmount($remainAmt)")
         }
 
         return canceled

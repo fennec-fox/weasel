@@ -2,7 +2,7 @@ package io.mustelidae.weasel.paygate.domain.interaction
 
 import io.kotlintest.matchers.asClue
 import io.kotlintest.shouldBe
-import io.kotlintest.shouldNotBe
+import io.mockk.every
 import io.mockk.mockk
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
 import io.mustelidae.weasel.paygate.domain.paygate.PayGate
@@ -29,6 +29,9 @@ internal class PayGateInteractionTest {
             "is test"
         )
         // When
+        every { payGateFinder.findOne(payGate.id!!) } returns payGate
+        every { payGateFinder.findOneWithExpired(payGate.id!!) } returns payGate
+
         val canceled = payGateInteraction.cancel(payGate.id!!, cancel)
         // Then
         canceled.asClue {
@@ -42,7 +45,7 @@ internal class PayGateInteractionTest {
     fun `partialCancel$paygate`() {
         // Given
         val payGateInteraction = PayGateInteraction(payGateFinder, payGateEnvironment)
-        val payGate = PayGate.aFixture(PayGate.Company.INICIS)
+        val payGate = PayGate.aFixture(PayGate.Company.NAVER_PAY)
         val partialCancel = PayGateResources.PartialCancel(
             "5678",
             false,
@@ -51,11 +54,14 @@ internal class PayGateInteractionTest {
             "is test"
         )
         // When
+        every { payGateFinder.findOne(payGate.id!!) } returns payGate
+        every { payGateFinder.findOneWithExpired(payGate.id!!) } returns payGate
+
         val canceled = payGateInteraction.partialCancel(payGate.id!!, partialCancel)
         // Then
         canceled.asClue {
-            it.updatedTransactionId shouldNotBe null
-            it.hasNewTransactionId() shouldBe true
+            it.updatedTransactionId shouldBe null
+            it.hasNewTransactionId() shouldBe false
             it.remainAmount shouldBe 500
         }
     }

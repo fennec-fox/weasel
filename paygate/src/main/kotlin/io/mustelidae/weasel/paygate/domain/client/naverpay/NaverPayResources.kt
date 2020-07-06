@@ -172,27 +172,32 @@ class NaverPayResources {
         }
 
         data class Canceled(
-            /* 결제번호 */
             val paymentId: String,
-            /* 취소 결제 번호 */
-            val payHistId: String,
-            /* 취소 처리된 주 결제 수단(CARD: 신용카드, BANK: 계좌 이체) */
-            val primaryPayMeans: String,
-            /* 주 결제 수단 취소 금액 */
-            val primaryPayCancelAmount: Long,
-            /* 추가로 취소 가능한 주 결제 수단 잔여 결제 금액 */
-            val primaryPayRestAmount: Long,
-            /* 네이버페이 포인트 취소 금액 */
-            val npointCancelAmount: Long,
-            /* 추가로 취소 가능한 네이버페이 포인트 잔여 결제 금액 */
-            val npointRestAmount: Long,
-            /* 취소 일시(YYYYMMDDHH24MMSS) */
-            val cancelYmdt: String,
-            /* 추가로 취소 가능한 전체 잔여 결제 금액(primaryPayRestAmount + npointRestAmount) */
-            val totalRestAmount: Long
+            val detail: Detail
         ) {
-            fun getCanceledDate(): LocalDateTime {
-                return LocalDateTime.parse(this.cancelYmdt, localDateTimePattern)
+            data class Detail(
+                /* 결제번호 */
+                val paymentId: String,
+                /* 취소 결제 번호 */
+                val payHistId: String,
+                /* 취소 처리된 주 결제 수단(CARD: 신용카드, BANK: 계좌 이체) */
+                val primaryPayMeans: String,
+                /* 주 결제 수단 취소 금액 */
+                val primaryPayCancelAmount: Long,
+                /* 추가로 취소 가능한 주 결제 수단 잔여 결제 금액 */
+                val primaryPayRestAmount: Long,
+                /* 네이버페이 포인트 취소 금액 */
+                val npointCancelAmount: Long,
+                /* 추가로 취소 가능한 네이버페이 포인트 잔여 결제 금액 */
+                val npointRestAmount: Long,
+                /* 취소 일시(YYYYMMDDHH24MMSS) */
+                val cancelYmdt: String,
+                /* 추가로 취소 가능한 전체 잔여 결제 금액(primaryPayRestAmount + npointRestAmount) */
+                val totalRestAmount: Long
+            ) {
+                fun getCanceledDate(): LocalDateTime {
+                    return LocalDateTime.parse(this.cancelYmdt, localDateTimePattern)
+                }
             }
         }
     }

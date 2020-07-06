@@ -88,7 +88,7 @@ internal class NaverPayPayGateCorp(
     }
 
     override fun cancel(cancel: PayGateResources.Cancel): PayGateResources.Canceled {
-        val reply = naverPayClient.cancel(
+        val canceled = naverPayClient.cancel(
             NaverPayResources.Request.Cancel(
                 payGate.storeId,
                 payGate.storeKey ?: throw PayGateException("naver pay must storeKey"),
@@ -96,12 +96,13 @@ internal class NaverPayPayGateCorp(
                 cancel.isAdmin,
                 cancel.paidAmount,
                 cancel.cause
-            ))
-        return PayGateResources.Canceled(reply.getCanceledDate(), 0)
+            )
+        ).detail
+        return PayGateResources.Canceled(canceled.getCanceledDate(), 0)
     }
 
     override fun partialCancel(partialCancel: PayGateResources.PartialCancel): PayGateResources.Canceled {
-        val reply = naverPayClient.cancelOfPartial(
+        val canceled = naverPayClient.cancelOfPartial(
             NaverPayResources.Request.Cancel(
                 payGate.storeId,
                 payGate.storeKey ?: throw PayGateException("naver pay must storeKey"),
@@ -111,8 +112,9 @@ internal class NaverPayPayGateCorp(
                 partialCancel.cause
             ),
             partialCancel.currentAmount
-        )
-        return PayGateResources.Canceled(reply.getCanceledDate(), reply.totalRestAmount)
+        ).detail
+
+        return PayGateResources.Canceled(canceled.getCanceledDate(), canceled.totalRestAmount)
     }
 
     override fun loadAdjustment() {

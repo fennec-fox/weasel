@@ -45,9 +45,9 @@ internal class NaverPayDummyClient(
         cancellableAmount: Long
     ): NaverPayResources.Reply.Canceled {
         val result = if (dummy.forceCancelFail)
-            getBodyByPartialCanceled(request, cancellableAmount)
-        else
             getBodyByFailedCancel(request)
+        else
+            getBodyByPartialCanceled(request, cancellableAmount)
 
         val reply = NaverPayResources.Reply(result).apply {
             makeExceptionIfNotSuccess()
@@ -169,11 +169,11 @@ internal class NaverPayDummyClient(
                     "payHistId": "${request.paymentId}${Random.nextInt(100, 999)}",
                     "primaryPayMeans": "$primaryPayMeans",
                     "primaryPayCancelAmount": "${request.cancelAmount}",
-                    "primaryPayRestAmount": 0",
+                    "primaryPayRestAmount": 0,
                     "npointCancelAmount": 0,
                     "npointRestAmount": 0,
                     "cancelYmdt": "${LocalDateTime.now().format(datetimeFormat)}",
-                    "totalRestAmount": 0"
+                    "totalRestAmount": 0
                 }
             }
         }
@@ -192,12 +192,12 @@ internal class NaverPayDummyClient(
                     "paymentId": "${request.paymentId}",
                     "payHistId": "${request.paymentId}${Random.nextInt(100, 999)}",
                     "primaryPayMeans": "$primaryPayMeans",
-                    "primaryPayCancelAmount": "${cancellableAmount - request.cancelAmount}",
-                    "primaryPayRestAmount": ${cancellableAmount - (cancellableAmount - request.cancelAmount)}",
+                    "primaryPayCancelAmount": ${cancellableAmount - request.cancelAmount},
+                    "primaryPayRestAmount": ${cancellableAmount - (cancellableAmount - request.cancelAmount)},
                     "npointCancelAmount": 0,
                     "npointRestAmount": 0,
                     "cancelYmdt": "${LocalDateTime.now().format(datetimeFormat)}",
-                    "totalRestAmount": 0"
+                    "totalRestAmount": ${cancellableAmount - request.cancelAmount}
                 }
             }
         }
@@ -215,11 +215,11 @@ internal class NaverPayDummyClient(
                         "paymentId": "${request.paymentId}", 
                         "primaryPayMeans": null,
                         "primaryPayCancelAmount": null,
-                        "primaryPayRestAmount": null",
+                        "primaryPayRestAmount": null,
                         "npointCancelAmount": null,
                         "npointRestAmount": null,
                         "cancelYmdt": null,
-                        "totalRestAmount": null"
+                        "totalRestAmount": null
                     }
                 }
             }
