@@ -4,10 +4,13 @@ import io.kotlintest.matchers.asClue
 import io.kotlintest.shouldBe
 import io.mockk.every
 import io.mockk.mockk
+import io.mustelidae.weasel.paygate.common.PayMethod
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
+import io.mustelidae.weasel.paygate.domain.client.inicis.InicisResources
 import io.mustelidae.weasel.paygate.domain.paygate.PayGate
 import io.mustelidae.weasel.paygate.domain.paygate.PayGateFinder
 import io.mustelidae.weasel.paygate.domain.paygate.aFixture
+import io.mustelidae.weasel.security.domain.token.PayToken
 import org.junit.jupiter.api.Test
 
 internal class PayGateInteractionTest {
@@ -15,6 +18,39 @@ internal class PayGateInteractionTest {
     private val payGateFinder: PayGateFinder = mockk()
     private val payGateEnvironment = PayGateEnvironment().apply {
         dummy.enable = true
+    }
+
+    @Test
+    fun payByTokenInicis() {
+        // Given
+        val payGateInteraction = PayGateInteraction(payGateFinder, payGateEnvironment)
+        val payGate = PayGate.aFixture(PayGate.Company.INICIS)
+        val payToken = PayToken(
+            "1",
+            "fennecInicis",
+            payGate.id!!,
+            10000
+        )
+        val certifyCreditAttribute = InicisResources.CertifyCreditAttribute().apply {
+            P_TID = "1231414"
+            P_STATUS = "00"
+            P_RMESG1 = "OK"
+            P_REQ_URL = "http://localhost/inicis/ok"
+            P_AMT = payToken.paymentAmount
+        }
+
+        // When
+        every { payGateFinder.findOne(payGate.id!!) } returns payGate
+        val paid = payGateInteraction.payByTokenPayGateId(payToken, certifyCreditAttribute)
+
+        // Then
+        paid.asClue {
+            it.orderId shouldBe payToken.orderId
+            it.methodInfos.size shouldBe 1
+        }
+        val credit = paid.methodInfos.first()
+
+        credit.method() shouldBe PayMethod.CREDIT
     }
 
     @Test

@@ -1,5 +1,6 @@
 package io.mustelidae.weasel.paygate.domain.client.inicis
 
+import io.mustelidae.weasel.paygate.common.CreditCode
 import io.mustelidae.weasel.paygate.config.PayGateClientException
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
 import io.mustelidae.weasel.paygate.domain.client.AbstractDummySupport
@@ -23,7 +24,22 @@ internal class InicisDummyClient(
             request.storeId,
             "Weasel",
             request.token.paymentAmount
-        )
+        ).apply {
+            credit = InicisResources.Reply.Paid.Credit(
+                CreditCode.AMEX.inicis,
+                "1234-5678-9010-1234",
+                canPartialCancel = true,
+                isInterestFree = false,
+                isCheckCard = true,
+                interestMonth = "10",
+                applyPrice = request.token.paymentAmount,
+                approveCode = "1235143",
+                name = CreditCode.AMEX.name,
+                issuer = null,
+                purchaseCode = null,
+                cardPoint = null
+            )
+        }
     }
 
     override fun cancel(request: InicisResources.Request.Cancel): InicisResources.Reply.Canceled {
