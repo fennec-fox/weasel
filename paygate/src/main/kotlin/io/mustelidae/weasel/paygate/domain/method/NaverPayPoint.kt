@@ -8,6 +8,7 @@ data class NaverPayPoint(
     private val paidAmount: Long,
     val expectAccumulateDate: LocalDate
 ) : MethodInfo {
+    override fun method(): PayMethod = PayMethod.NAVER_PAY_POINT
     override fun paidAmount(): Long = paidAmount
 
     override fun name(): String {

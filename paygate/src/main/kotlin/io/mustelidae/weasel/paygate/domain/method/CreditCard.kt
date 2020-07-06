@@ -1,6 +1,7 @@
 package io.mustelidae.weasel.paygate.domain.method
 
 import io.mustelidae.weasel.paygate.common.CreditCode
+import io.mustelidae.weasel.paygate.common.PayMethod
 
 data class CreditCard(
     val creditCode: CreditCode,
@@ -16,6 +17,8 @@ data class CreditCard(
 
     internal var type: CreditType? = null // 카드 종류
     internal var purchaseCode: String? = null // 매입사 코드
+
+    override fun method(): PayMethod = PayMethod.CREDIT
 
     override fun paidAmount(): Long = paidAmount
 

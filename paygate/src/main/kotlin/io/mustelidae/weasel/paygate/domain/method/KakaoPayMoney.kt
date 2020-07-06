@@ -5,6 +5,7 @@ import io.mustelidae.weasel.paygate.common.PayMethod
 data class KakaoPayMoney(
     private val paidAmount: Long
 ) : MethodInfo {
+    override fun method(): PayMethod = PayMethod.KAKAO_PAY_MONEY
     override fun paidAmount(): Long = paidAmount
     override fun name(): String {
         return PayMethod.KAKAO_PAY_MONEY.name

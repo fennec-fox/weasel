@@ -1,12 +1,15 @@
 package io.mustelidae.weasel.paygate.domain.method
 
 import io.mustelidae.weasel.paygate.common.BankCode
+import io.mustelidae.weasel.paygate.common.PayMethod
 
 data class BankTransfer(
     val bankCode: BankCode,
     private val paidAmount: Long,
     private val accountNumber: String? = null
 ) : MethodInfo {
+    override fun method(): PayMethod = PayMethod.BANK_TRANSFER
+
     override fun paidAmount(): Long = paidAmount
 
     override fun name(): String {
