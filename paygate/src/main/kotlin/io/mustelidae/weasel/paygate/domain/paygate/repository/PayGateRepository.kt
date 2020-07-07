@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface PayGateRepository : JpaRepository<PayGate, Long> {
     fun findByCompanyAndPayMethodAndTypeAndStatusTrue(company: PayGate.Company, payMethod: PayMethod, type: PayGate.Type): PayGate?
-    fun findByPayMethodAndTypeAndStatusTrue(payMethod: PayMethod, type: PayGate.Type): List<PayGate>?
+    fun findByTypeAndPayMethodAndStatusTrue(type: PayGate.Type, payMethod: PayMethod): List<PayGate>?
 }

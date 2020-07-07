@@ -3,12 +3,12 @@ package io.mustelidae.weasel.paygate.domain.paygate
 import io.mustelidae.weasel.paygate.common.PayMethod
 import io.mustelidae.weasel.paygate.config.PayGateException
 import io.mustelidae.weasel.paygate.domain.paygate.repository.PayGateRepository
-import javax.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 class PayGateFinder(
     private val payGateRepository: PayGateRepository
 ) {
@@ -23,6 +23,10 @@ class PayGateFinder(
     fun findAll(): List<PayGate> {
         return payGateRepository.findAll()
             .filter { it.status }
+    }
+
+    fun findAll(type: PayGate.Type, payMethod: PayMethod): List<PayGate> {
+        return payGateRepository.findByTypeAndPayMethodAndStatusTrue(type, payMethod)?: throw PayGateException("존재 하지 않는 PG 입니다.")
     }
 
     fun findAllWithExpired(): List<PayGate> {

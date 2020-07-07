@@ -42,6 +42,9 @@ class PayGate(
     var status: Boolean = true
         private set
 
+    var isOn: Boolean = true
+        private set
+
     @Column(length = 50)
     var cause: String? = null
         private set
@@ -57,6 +60,14 @@ class PayGate(
     fun expire(cause: String) {
         this.status = false
         this.cause = cause
+    }
+
+    fun on() {
+        this.isOn = true
+    }
+
+    fun off() {
+        this.isOn = false
     }
 
     enum class Type {
