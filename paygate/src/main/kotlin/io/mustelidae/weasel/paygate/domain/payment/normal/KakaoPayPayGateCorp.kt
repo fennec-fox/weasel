@@ -4,11 +4,11 @@ import io.mustelidae.weasel.paygate.common.CreditCode
 import io.mustelidae.weasel.paygate.domain.client.CertifyPayGateAttribute
 import io.mustelidae.weasel.paygate.domain.client.kakaopay.KakaoPayClient
 import io.mustelidae.weasel.paygate.domain.client.kakaopay.KakaoPayResources
-import io.mustelidae.weasel.paygate.domain.payment.PayGateResources
 import io.mustelidae.weasel.paygate.domain.method.CreditCard
 import io.mustelidae.weasel.paygate.domain.method.KakaoPayMoney
 import io.mustelidae.weasel.paygate.domain.method.MethodInfo
 import io.mustelidae.weasel.paygate.domain.paygate.PayGate
+import io.mustelidae.weasel.paygate.domain.payment.PayGateResources
 import io.mustelidae.weasel.security.domain.token.PayToken
 
 internal class KakaoPayPayGateCorp(
@@ -17,6 +17,7 @@ internal class KakaoPayPayGateCorp(
 ) : PayGateCorp {
 
     private lateinit var paid: KakaoPayResources.Reply.Paid
+    private lateinit var canceled: KakaoPayResources.Reply.Canceled
 
     override fun pay(token: PayToken, certifyPayGateAttribute: CertifyPayGateAttribute): PayGateResources.Paid {
         val certifyAttribute = certifyPayGateAttribute as KakaoPayResources.CertifyAttribute
@@ -76,20 +77,20 @@ internal class KakaoPayPayGateCorp(
     }
 
     override fun cancel(cancel: PayGateResources.Cancel): PayGateResources.Canceled {
-        val reply = kakaoPayClient.cancel(
+        this.canceled = kakaoPayClient.cancel(
             KakaoPayResources.Request.Cancel(
                 payGate.storeId,
                 cancel.transactionId,
                 cancel.paidAmount
             ))
         return PayGateResources.Canceled(
-            reply.canceledAt,
+            canceled.canceledAt,
             0
         )
     }
 
     override fun partialCancel(partialCancel: PayGateResources.PartialCancel): PayGateResources.Canceled {
-        val reply = kakaoPayClient.cancelOfPartial(
+        this.canceled = kakaoPayClient.cancelOfPartial(
             KakaoPayResources.Request.Cancel(
                 payGate.storeId,
                 partialCancel.transactionId,
@@ -98,7 +99,7 @@ internal class KakaoPayPayGateCorp(
             partialCancel.currentAmount
         )
         return PayGateResources.Canceled(
-            reply.canceledAt,
+            canceled.canceledAt,
             0
         )
     }

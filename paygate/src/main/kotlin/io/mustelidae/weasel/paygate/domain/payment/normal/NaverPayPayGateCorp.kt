@@ -6,12 +6,12 @@ import io.mustelidae.weasel.paygate.config.PayGateException
 import io.mustelidae.weasel.paygate.domain.client.CertifyPayGateAttribute
 import io.mustelidae.weasel.paygate.domain.client.naverpay.NaverPayClient
 import io.mustelidae.weasel.paygate.domain.client.naverpay.NaverPayResources
-import io.mustelidae.weasel.paygate.domain.payment.PayGateResources
 import io.mustelidae.weasel.paygate.domain.method.BankTransfer
 import io.mustelidae.weasel.paygate.domain.method.CreditCard
 import io.mustelidae.weasel.paygate.domain.method.MethodInfo
 import io.mustelidae.weasel.paygate.domain.method.NaverPayPoint
 import io.mustelidae.weasel.paygate.domain.paygate.PayGate
+import io.mustelidae.weasel.paygate.domain.payment.PayGateResources
 import io.mustelidae.weasel.security.domain.token.PayToken
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -22,6 +22,7 @@ internal class NaverPayPayGateCorp(
 ) : PayGateCorp {
 
     private lateinit var paid: NaverPayResources.Reply.Paid
+    private lateinit var canceled: NaverPayResources.Reply.Canceled
 
     override fun pay(token: PayToken, certifyPayGateAttribute: CertifyPayGateAttribute): PayGateResources.Paid {
         val certifyAttribute = certifyPayGateAttribute as NaverPayResources.CertifyAttribute
@@ -89,7 +90,7 @@ internal class NaverPayPayGateCorp(
     }
 
     override fun cancel(cancel: PayGateResources.Cancel): PayGateResources.Canceled {
-        val canceled = naverPayClient.cancel(
+        this.canceled = naverPayClient.cancel(
             NaverPayResources.Request.Cancel(
                 payGate.storeId,
                 payGate.storeKey ?: throw PayGateException("naver pay must storeKey"),
@@ -98,15 +99,15 @@ internal class NaverPayPayGateCorp(
                 cancel.paidAmount,
                 cancel.cause
             )
-        ).detail
+        )
         return PayGateResources.Canceled(
-            canceled.getCanceledDate(),
+            canceled.detail.getCanceledDate(),
             0
         )
     }
 
     override fun partialCancel(partialCancel: PayGateResources.PartialCancel): PayGateResources.Canceled {
-        val canceled = naverPayClient.cancelOfPartial(
+        this.canceled = naverPayClient.cancelOfPartial(
             NaverPayResources.Request.Cancel(
                 payGate.storeId,
                 payGate.storeKey ?: throw PayGateException("naver pay must storeKey"),
@@ -116,11 +117,11 @@ internal class NaverPayPayGateCorp(
                 partialCancel.cause
             ),
             partialCancel.currentAmount
-        ).detail
+        )
 
         return PayGateResources.Canceled(
-            canceled.getCanceledDate(),
-            canceled.totalRestAmount
+            canceled.detail.getCanceledDate(),
+            canceled.detail.totalRestAmount
         )
     }
 

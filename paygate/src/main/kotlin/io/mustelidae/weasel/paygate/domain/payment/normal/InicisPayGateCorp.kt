@@ -6,10 +6,10 @@ import io.mustelidae.weasel.paygate.config.NotSupportPayMethodException
 import io.mustelidae.weasel.paygate.domain.client.CertifyPayGateAttribute
 import io.mustelidae.weasel.paygate.domain.client.inicis.InicisClient
 import io.mustelidae.weasel.paygate.domain.client.inicis.InicisResources
-import io.mustelidae.weasel.paygate.domain.payment.PayGateResources
 import io.mustelidae.weasel.paygate.domain.method.CreditCard
 import io.mustelidae.weasel.paygate.domain.method.MethodInfo
 import io.mustelidae.weasel.paygate.domain.paygate.PayGate
+import io.mustelidae.weasel.paygate.domain.payment.PayGateResources
 import io.mustelidae.weasel.security.domain.token.PayToken
 
 internal class InicisPayGateCorp(
@@ -18,6 +18,7 @@ internal class InicisPayGateCorp(
 ) : PayGateCorp {
 
     lateinit var paid: InicisResources.Reply.Paid
+    lateinit var canceled: InicisResources.Reply.Canceled
 
     override fun pay(token: PayToken, certifyPayGateAttribute: CertifyPayGateAttribute): PayGateResources.Paid {
 
@@ -75,7 +76,7 @@ internal class InicisPayGateCorp(
     }
 
     override fun cancel(cancel: PayGateResources.Cancel): PayGateResources.Canceled {
-        val reply = inicisClient.cancel(
+        this.canceled = inicisClient.cancel(
             InicisResources.Request.Cancel(
                 payGate.storeId,
                 cancel.transactionId,
@@ -83,13 +84,13 @@ internal class InicisPayGateCorp(
                 cancel.cause
             ))
         return PayGateResources.Canceled(
-            reply.canceledDate,
+            canceled.canceledDate,
             0
         )
     }
 
     override fun partialCancel(partialCancel: PayGateResources.PartialCancel): PayGateResources.Canceled {
-        val reply = inicisClient.cancelOfPartial(
+        this.canceled = inicisClient.cancelOfPartial(
             InicisResources.Request.Cancel(
                 payGate.storeId,
                 partialCancel.transactionId,
@@ -99,9 +100,9 @@ internal class InicisPayGateCorp(
             partialCancel.currentAmount
         )
         return PayGateResources.Canceled(
-            reply.canceledDate,
-            reply.remainAmount,
-            reply.updatedTid
+            canceled.canceledDate,
+            canceled.remainAmount,
+            canceled.updatedTid
         )
     }
 

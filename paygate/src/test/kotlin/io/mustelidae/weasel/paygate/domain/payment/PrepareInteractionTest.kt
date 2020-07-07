@@ -4,10 +4,10 @@ import io.kotlintest.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
-import io.mustelidae.weasel.paygate.domain.payment.PayGateResources.PrepareProduct
 import io.mustelidae.weasel.paygate.domain.paygate.PayGate
 import io.mustelidae.weasel.paygate.domain.paygate.PayGateFinder
 import io.mustelidae.weasel.paygate.domain.paygate.aFixture
+import io.mustelidae.weasel.paygate.domain.payment.PayGateResources.PrepareProduct
 import io.mustelidae.weasel.security.domain.token.PayToken
 import org.junit.jupiter.api.Test
 

@@ -26,7 +26,7 @@ class PayGateFinder(
     }
 
     fun findAll(type: PayGate.Type, payMethod: PayMethod): List<PayGate> {
-        return payGateRepository.findByTypeAndPayMethodAndStatusTrue(type, payMethod)?: throw PayGateException("존재 하지 않는 PG 입니다.")
+        return payGateRepository.findByTypeAndPayMethodAndStatusTrue(type, payMethod) ?: throw PayGateException("존재 하지 않는 PG 입니다.")
     }
 
     fun findAllWithExpired(): List<PayGate> {

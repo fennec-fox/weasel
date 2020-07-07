@@ -1,14 +1,11 @@
 package io.mustelidae.weasel.paygate.domain.paygate
 
-import com.google.common.base.CharMatcher.any
 import io.kotlintest.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mustelidae.weasel.paygate.common.PayMethod
 import io.mustelidae.weasel.paygate.utils.invokeId
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 internal class SelectPayGateInteractionTest {
 

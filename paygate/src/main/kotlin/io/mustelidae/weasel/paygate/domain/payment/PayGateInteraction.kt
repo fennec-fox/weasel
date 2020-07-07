@@ -3,8 +3,8 @@ package io.mustelidae.weasel.paygate.domain.payment
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
 import io.mustelidae.weasel.paygate.config.PayGateException
 import io.mustelidae.weasel.paygate.domain.client.CertifyPayGateAttribute
-import io.mustelidae.weasel.paygate.domain.payment.normal.PayGateCorpHandler
 import io.mustelidae.weasel.paygate.domain.paygate.PayGateFinder
+import io.mustelidae.weasel.paygate.domain.payment.normal.PayGateCorpHandler
 import io.mustelidae.weasel.security.domain.token.PayToken
 import org.springframework.stereotype.Service
 
