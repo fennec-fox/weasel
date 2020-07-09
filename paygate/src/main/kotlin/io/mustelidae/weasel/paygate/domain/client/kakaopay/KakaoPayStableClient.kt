@@ -8,6 +8,7 @@ import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import io.mustelidae.weasel.paygate.config.PayGateClientException
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
+import io.mustelidae.weasel.paygate.domain.paygate.PayGate
 import io.mustelidae.weasel.paygate.utils.ClientSupport
 import io.mustelidae.weasel.paygate.utils.Jackson
 import org.slf4j.LoggerFactory
@@ -126,9 +127,10 @@ internal class KakaoPayStableClient(
             val json = String(result.component2()!!.response.data, Charsets.UTF_8)
             val error = Jackson.getMapper().readValue<KakaoPayResources.Error>(json)
             throw PayGateClientException(
-                error.getErrorMessage(), true, mapOf(
-                    "kakao code" to error.code
-                )
+                PayGate.Company.KAKAO_PAY,
+                error.getErrorMessage(),
+                true,
+                error.code
             )
         }
     }

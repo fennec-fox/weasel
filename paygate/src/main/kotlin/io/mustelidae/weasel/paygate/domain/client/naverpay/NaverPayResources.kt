@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.convertValue
 import io.mustelidae.weasel.paygate.config.PayGateCertifyException
 import io.mustelidae.weasel.paygate.config.PayGateClientException
 import io.mustelidae.weasel.paygate.domain.client.CertifyPayGateAttribute
+import io.mustelidae.weasel.paygate.domain.paygate.PayGate
 import io.mustelidae.weasel.paygate.utils.Jackson
 import io.mustelidae.weasel.security.domain.token.PayToken
 import java.time.LocalDateTime
@@ -70,12 +71,12 @@ class NaverPayResources {
 
         fun makeExceptionIfNotSuccess() {
             if (this.isSuccess.not()) {
-                val mapOfCause = mapOf(
-                    "pg" to "naver pay",
-                    "errorCode" to code,
-                    "errorMsg" to message
+                throw PayGateClientException(
+                    PayGate.Company.NAVER_PAY,
+                    message,
+                    true,
+                    code
                 )
-                throw PayGateClientException(message, true, mapOfCause)
             }
         }
 

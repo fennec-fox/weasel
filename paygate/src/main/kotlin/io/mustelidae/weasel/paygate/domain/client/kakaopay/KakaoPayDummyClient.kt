@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import io.mustelidae.weasel.paygate.config.PayGateClientException
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
 import io.mustelidae.weasel.paygate.domain.client.AbstractDummySupport
+import io.mustelidae.weasel.paygate.domain.paygate.PayGate
 import io.mustelidae.weasel.paygate.utils.Jackson
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -24,9 +25,10 @@ internal class KakaoPayDummyClient(
             val json = getBodyByPaidFail()
             val error = mapper.readValue<KakaoPayResources.Error>(json)
             throw PayGateClientException(
-                error.getErrorMessage(), true, mapOf(
-                    "kakao code" to error.code
-                )
+                PayGate.Company.KAKAO_PAY,
+                error.getErrorMessage(),
+                true,
+                error.code
             )
         }
         return mapper.readValue(getBodyByPaid(request))
@@ -43,10 +45,12 @@ internal class KakaoPayDummyClient(
         if (dummy.forceCancelFail) {
             val json = getBodyByPaidFail()
             val error = mapper.readValue<KakaoPayResources.Error>(json)
+
             throw PayGateClientException(
-                error.getErrorMessage(), true, mapOf(
-                    "kakao code" to error.code
-                )
+                PayGate.Company.KAKAO_PAY,
+                error.getErrorMessage(),
+                true,
+                error.code
             )
         }
 

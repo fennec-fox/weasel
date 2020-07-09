@@ -3,6 +3,7 @@ package io.mustelidae.weasel.paygate.utils
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.core.ResponseResultOf
 import io.mustelidae.weasel.paygate.config.PayGateClientException
+import java.lang.invoke.MethodHandles.throwException
 import org.slf4j.Logger
 
 internal open class ClientSupport(
@@ -10,12 +11,14 @@ internal open class ClientSupport(
     val log: Logger
 ) {
 
-    fun ResponseResultOf<String>.orElseThrow(message: String): String {
+    fun ResponseResultOf<String>.orElseThrow(throwException: () -> PayGateClientException): String {
         val (_, res, result) = this
 
         if (res.isOk().not()) {
             val error = String(result.component2()!!.response.data)
-            throw PayGateClientException(message, false, mapOf("error response" to error))
+            throw throwException().apply {
+                pgCode = error
+            }
         }
 
         return result.get()

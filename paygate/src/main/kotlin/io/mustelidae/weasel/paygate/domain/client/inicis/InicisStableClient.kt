@@ -4,6 +4,7 @@ import com.github.kittinunf.fuel.Fuel
 import com.google.common.base.Splitter
 import io.mustelidae.weasel.paygate.config.PayGateClientException
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
+import io.mustelidae.weasel.paygate.domain.paygate.PayGate
 import io.mustelidae.weasel.paygate.utils.ClientSupport
 import io.mustelidae.weasel.paygate.utils.invokeValue
 import java.time.LocalDateTime
@@ -16,6 +17,7 @@ internal class InicisStableClient(
     environment.writeLog,
     LoggerFactory.getLogger(InicisStableClient::class.java)
 ) {
+    private val company = PayGate.Company.INICIS
 
     @Throws(PayGateClientException::class)
     override fun payment(request: InicisResources.Request.Pay): InicisResources.Reply.Paid {
@@ -27,16 +29,17 @@ internal class InicisStableClient(
             .timeout(environment.timeout)
             .responseString()
             .writeLog()
-            .orElseThrow("이니시스 통신 문제로 인해 결제를 진행 할 수 없습니다. 다른 결제 수단을 선택해 주세요")
+            .orElseThrow { PayGateClientException(company, "이니시스 통신 문제로 인해 결제를 진행 할 수 없습니다. 다른 결제 수단을 선택해 주세요", false) }
 
         @Suppress("UnstableApiUsage")
         val responseMap = Splitter.on("&")
             .withKeyValueSeparator("=")
             .split(result)
 
-        if (responseMap.getValue("P_STATUS") != "00") {
+        val status = responseMap.getValue("P_STATUS")
+        if (status != "00") {
             val message = responseMap.getValue("P_RMESG1")
-            throw PayGateClientException(message, true)
+            throw PayGateClientException(company, message, true, status)
         }
 
         return InicisResources.Reply.Paid.from(responseMap)
@@ -59,9 +62,11 @@ internal class InicisStableClient(
         val date = iniPay.GetResult("CancelDate")
         val time = iniPay.GetResult("CancelTime")
 
-        if (iniPay.GetResult("ResultCode") != "00") {
+        val code = iniPay.GetResult("ResultCode")
+
+        if (code != "00") {
             val message = iniPay.GetResult("ResultMsg")
-            throw PayGateClientException(message, false)
+            throw PayGateClientException(company, message, false, code)
         }
 
         return InicisResources.Reply.Canceled(
@@ -96,10 +101,10 @@ internal class InicisStableClient(
         val canceledAmt = iniPay.GetResult("PRTC_Price").toLong()
         val time = iniPay.GetResult("CancelTime") // FIXME: 동작 확인 필요
         val date = iniPay.GetResult("CancelDate")
-
-        if (iniPay.GetResult("ResultCode") != "00") {
+        val code = iniPay.GetResult("ResultCode")
+        if (code != "00") {
             val message = iniPay.GetResult("ResultMsg")
-            throw PayGateClientException(message, false)
+            throw PayGateClientException(company, message, false, code)
         }
 
         if (request.cancelAmount != canceledAmt || remainAmt != cancellableAmount - request.cancelAmount) {
