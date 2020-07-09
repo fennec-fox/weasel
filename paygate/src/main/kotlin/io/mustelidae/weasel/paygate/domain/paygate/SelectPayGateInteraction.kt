@@ -6,6 +6,10 @@ import kotlin.random.Random
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
+/**
+ * Paygate 임의 선택 하기
+ * mental model: 무인 계산기 기계 선택
+ */
 @Service
 @Transactional(readOnly = true)
 class SelectPayGateInteraction(

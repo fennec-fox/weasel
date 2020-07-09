@@ -8,6 +8,10 @@ import io.mustelidae.weasel.paygate.domain.payment.normal.PayGateCorpHandler
 import io.mustelidae.weasel.security.domain.token.PayToken
 import org.springframework.stereotype.Service
 
+/**
+ * 결제하기
+ * mental model: 카드 긁기, 긁은 카드 취소 하기
+ */
 @Service
 class PayGateInteraction(
     private val payGateFinder: PayGateFinder,
