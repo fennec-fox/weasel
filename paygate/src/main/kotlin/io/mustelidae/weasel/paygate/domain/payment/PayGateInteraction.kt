@@ -23,6 +23,9 @@ class PayGateInteraction(
             payGateEnvironment
         )
 
+    /**
+     * 결제 토큰을 이용한 결제
+     */
     fun payByTokenPayGateId(token: PayToken, certifyPayGateAttribute: CertifyPayGateAttribute): PayGateResources.Paid {
         val payGateCorp = payGateCompanyHandler.getCorp(token.payGateId)
 
@@ -33,6 +36,9 @@ class PayGateInteraction(
         return paid
     }
 
+    /**
+     * 결제 토큰은 무시하고 PaygateID를 받아서 결제
+     */
     fun payByReassignPayGateId(
         token: PayToken,
         certifyPayGateAttribute: CertifyPayGateAttribute,
@@ -51,6 +57,9 @@ class PayGateInteraction(
         return paid
     }
 
+    /**
+     * 취소
+     */
     fun cancel(payGateId: Long, cancel: PayGateResources.Cancel): PayGateResources.Canceled {
         val payGateCorp = payGateCompanyHandler.getCorpWithExpired(payGateId)
 
@@ -61,6 +70,9 @@ class PayGateInteraction(
         return canceled
     }
 
+    /**
+     * 결제 금액 일부 취소
+     */
     fun partialCancel(payGateId: Long, partialCancel: PayGateResources.PartialCancel): PayGateResources.Canceled {
         val payGateCorp = payGateCompanyHandler.getCorpWithExpired(payGateId)
 
