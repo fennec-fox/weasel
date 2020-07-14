@@ -1,0 +1,8 @@
+package io.mustelidae.weasel.checkout.config
+
+import java.lang.RuntimeException
+import org.bson.types.ObjectId
+
+open class CheckoutException(message: String, val causeBy: Map<String, Any>? = null) : RuntimeException(message)
+
+class CheckoutCartException(message: String, basketId: ObjectId) : CheckoutException(message, mapOf("basketId" to basketId.toString()))
