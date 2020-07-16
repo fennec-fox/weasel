@@ -51,7 +51,7 @@ internal class CartInteractionTest {
         val sizeOfItemForBasket = basket.items.size
 
         // When
-        every { basketFinder.findOne(basket.id) } returns basket
+        every { basketFinder.findOrThrow(basket.id) } returns basket
 
         val slot = slot<Basket>()
         every { basketRepository.save(capture(slot)) } returns Basket.aFixture() // returns는 mockk을 우회하기 위한 dummy 값임
@@ -71,7 +71,7 @@ internal class CartInteractionTest {
         val basket = Basket.aFixture(Basket.Type.BOXING)
 
         // When
-        every { basketFinder.findOne(basket.id) } returns basket
+        every { basketFinder.findOrThrow(basket.id) } returns basket
 
         val slot = slot<Basket>()
         every { basketRepository.save(capture(slot)) } returns Basket.aFixture() // returns는 mockk을 우회하기 위한 dummy 값임
@@ -90,7 +90,7 @@ internal class CartInteractionTest {
         val sizeOfItemForBasket = basket.items.size
 
         // When
-        every { basketFinder.findOne(basket.id) } returns basket
+        every { basketFinder.findOrThrow(basket.id) } returns basket
 
         val slot = slot<Basket>()
         every { basketRepository.save(capture(slot)) } returns Basket.aFixture() // returns는 mockk을 우회하기 위한 dummy 값임

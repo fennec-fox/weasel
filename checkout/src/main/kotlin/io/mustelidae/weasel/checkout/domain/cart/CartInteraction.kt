@@ -18,14 +18,14 @@ class CartInteraction(
     }
 
     fun put(basketId: ObjectId, item: Item) {
-        val basket = basketFinder.findOne(basketId)
+        val basket = basketFinder.findOrThrow(basketId)
         val cart = Cart.from(basket)
         cart.addBy(item)
         basketRepository.save(cart.basket)
     }
 
     fun put(basketId: ObjectId, items: List<Item>) {
-        val basket = basketFinder.findOne(basketId)
+        val basket = basketFinder.findOrThrow(basketId)
         val cart = Cart.from(basket)
 
         items.forEach {
@@ -35,14 +35,14 @@ class CartInteraction(
     }
 
     fun remove(basketId: ObjectId, item: Item) {
-        val basket = basketFinder.findOne(basketId)
+        val basket = basketFinder.findOrThrow(basketId)
         val cart = Cart.from(basket)
         cart.removeBy(item)
         basketRepository.save(cart.basket)
     }
 
     fun remove(basketId: ObjectId, items: List<Item>) {
-        val basket = basketFinder.findOne(basketId)
+        val basket = basketFinder.findOrThrow(basketId)
         val cart = Cart.from(basket)
         items.forEach {
             cart.removeBy(it)

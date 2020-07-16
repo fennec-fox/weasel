@@ -1,6 +1,6 @@
 package io.mustelidae.weasel.checkout.domain.cart
 
-internal interface Cart {
+interface Cart {
     val basket: Basket
 
     fun addBy(item: Item)

@@ -4,10 +4,10 @@ import io.mustelidae.weasel.checkout.config.CheckoutCartException
 import io.mustelidae.weasel.checkout.domain.preparation.Preparation
 import java.time.LocalDateTime
 import javax.persistence.Id
-import org.bson.types.ObjectId
-import org.springframework.data.mongodb.core.mapping.Document
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import org.bson.types.ObjectId
+import org.springframework.data.mongodb.core.mapping.Document
 
 /**
  * 바구니
@@ -33,7 +33,7 @@ class Basket(
         private set
 
     @ManyToOne
-    @JoinColumn(name="preparationId")
+    @JoinColumn(name = "preparationId")
     var preparation: Preparation? = null
 
     enum class Type {
@@ -61,9 +61,9 @@ class Basket(
         this.items.remove(target)
     }
 
-    fun setBy(preparation: Preparation){
+    fun setBy(preparation: Preparation) {
         this.preparation = preparation
-        if(preparation.baskets.contains(this).not())
+        if (preparation.baskets.contains(this).not())
             preparation.addBy(this)
     }
 
