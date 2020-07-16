@@ -1,4 +1,4 @@
-package io.mustelidae.weasel.paygate.common
+package io.mustelidae.weasel.common.code
 
 // FIXME: 카카오페이는 제휴를 해야 코드를 알려줌..
 enum class CreditCode(

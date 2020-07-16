@@ -4,7 +4,7 @@ import io.kotlintest.matchers.asClue
 import io.kotlintest.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import io.mustelidae.weasel.paygate.common.PayMethod
+import io.mustelidae.weasel.common.code.PayMethod
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
 import io.mustelidae.weasel.paygate.domain.client.inicis.InicisResources
 import io.mustelidae.weasel.paygate.domain.paygate.PayGate

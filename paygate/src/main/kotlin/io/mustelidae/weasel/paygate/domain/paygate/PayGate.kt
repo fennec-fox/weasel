@@ -1,6 +1,6 @@
 package io.mustelidae.weasel.paygate.domain.paygate
 
-import io.mustelidae.weasel.paygate.common.PayMethod
+import io.mustelidae.weasel.common.code.PayMethod
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity

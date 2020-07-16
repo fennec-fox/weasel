@@ -1,4 +1,4 @@
-package io.mustelidae.weasel.paygate.common
+package io.mustelidae.weasel.common.code
 
 enum class PayMethod(val desc: String) {
     CREDIT("신용카드"),

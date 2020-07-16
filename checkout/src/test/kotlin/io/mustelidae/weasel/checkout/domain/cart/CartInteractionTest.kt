@@ -38,7 +38,7 @@ internal class CartInteractionTest {
         slot.captured.asClue {
             it.id shouldBe basketId
             it.type shouldBe basketType
-            it.userId shouldBe userId
+            it.recipientUserId shouldBe userId
             it.items.size shouldBe items.size
         }
     }

@@ -1,6 +1,6 @@
 package io.mustelidae.weasel.paygate.domain.method
 
-import io.mustelidae.weasel.paygate.common.PayMethod
+import io.mustelidae.weasel.common.code.PayMethod
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 

@@ -1,6 +1,6 @@
 package io.mustelidae.weasel.paygate.domain.client.inicis
 
-import io.mustelidae.weasel.paygate.common.CreditCode
+import io.mustelidae.weasel.common.code.CreditCode
 import io.mustelidae.weasel.paygate.config.PayGateClientException
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
 import io.mustelidae.weasel.paygate.domain.client.AbstractDummySupport

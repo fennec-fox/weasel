@@ -1,10 +1,13 @@
 package io.mustelidae.weasel.checkout.domain.cart
 
 import io.mustelidae.weasel.checkout.config.CheckoutCartException
+import io.mustelidae.weasel.checkout.domain.preparation.Preparation
 import java.time.LocalDateTime
 import javax.persistence.Id
 import org.bson.types.ObjectId
 import org.springframework.data.mongodb.core.mapping.Document
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 
 /**
  * 바구니
@@ -14,7 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 class Basket(
     val type: Type,
     val cpId: Long,
-    val userId: String
+    val recipientUserId: String
 ) {
 
     @Id
@@ -28,6 +31,10 @@ class Basket(
 
     var created: LocalDateTime = LocalDateTime.now()
         private set
+
+    @ManyToOne
+    @JoinColumn(name="preparationId")
+    var preparation: Preparation? = null
 
     enum class Type {
         BOXING,
@@ -52,6 +59,12 @@ class Basket(
     internal fun removeBy(item: Item) {
         val target = this.items.find { it.id == item.id }
         this.items.remove(target)
+    }
+
+    fun setBy(preparation: Preparation){
+        this.preparation = preparation
+        if(preparation.baskets.contains(this).not())
+            preparation.addBy(this)
     }
 
     companion object

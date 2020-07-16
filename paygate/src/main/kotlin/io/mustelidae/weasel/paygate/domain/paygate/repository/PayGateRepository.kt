@@ -1,6 +1,6 @@
 package io.mustelidae.weasel.paygate.domain.paygate.repository
 
-import io.mustelidae.weasel.paygate.common.PayMethod
+import io.mustelidae.weasel.common.code.PayMethod
 import io.mustelidae.weasel.paygate.domain.paygate.PayGate
 import org.springframework.data.jpa.repository.JpaRepository
 

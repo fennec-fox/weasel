@@ -1,6 +1,6 @@
 package io.mustelidae.weasel.paygate.domain.client.inicis
 
-import io.mustelidae.weasel.paygate.common.PayMethod
+import io.mustelidae.weasel.common.code.PayMethod
 import io.mustelidae.weasel.paygate.config.NotSupportPayMethodException
 import io.mustelidae.weasel.paygate.config.PayGateCertifyException
 import io.mustelidae.weasel.paygate.domain.client.CertifyPayGateAttribute

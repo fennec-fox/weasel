@@ -1,7 +1,7 @@
 package io.mustelidae.weasel.paygate.domain.client.naverpay
 
-import io.mustelidae.weasel.paygate.common.BankCode
-import io.mustelidae.weasel.paygate.common.CreditCode
+import io.mustelidae.weasel.common.code.BankCode
+import io.mustelidae.weasel.common.code.CreditCode
 import io.mustelidae.weasel.paygate.config.PayGateEnvironment
 import io.mustelidae.weasel.paygate.domain.client.AbstractDummySupport
 import java.time.LocalDate

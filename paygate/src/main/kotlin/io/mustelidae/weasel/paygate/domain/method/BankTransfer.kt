@@ -1,7 +1,7 @@
 package io.mustelidae.weasel.paygate.domain.method
 
-import io.mustelidae.weasel.paygate.common.BankCode
-import io.mustelidae.weasel.paygate.common.PayMethod
+import io.mustelidae.weasel.common.code.BankCode
+import io.mustelidae.weasel.common.code.PayMethod
 
 data class BankTransfer(
     val bankCode: BankCode,

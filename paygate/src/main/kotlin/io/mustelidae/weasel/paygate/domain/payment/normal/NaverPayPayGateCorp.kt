@@ -1,7 +1,7 @@
 package io.mustelidae.weasel.paygate.domain.payment.normal
 
-import io.mustelidae.weasel.paygate.common.BankCode
-import io.mustelidae.weasel.paygate.common.CreditCode
+import io.mustelidae.weasel.common.code.BankCode
+import io.mustelidae.weasel.common.code.CreditCode
 import io.mustelidae.weasel.paygate.config.PayGateException
 import io.mustelidae.weasel.paygate.domain.client.CertifyPayGateAttribute
 import io.mustelidae.weasel.paygate.domain.client.naverpay.NaverPayClient

@@ -1,4 +1,4 @@
-package io.mustelidae.weasel.paygate.common
+package io.mustelidae.weasel.common.code
 
 enum class BankCode(
     val bank: String,
