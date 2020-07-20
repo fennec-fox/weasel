@@ -1,6 +1,7 @@
 package io.mustelidae.weasel.paygate.domain.paygate
 
 import io.mustelidae.weasel.common.code.PayMethod
+import org.springframework.data.annotation.CreatedBy
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -10,6 +11,7 @@ import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 
@@ -58,6 +60,11 @@ class PayGate(
     @LastModifiedDate
     var modified: LocalDateTime? = null
         private set
+
+    @CreatedBy
+    @LastModifiedBy
+    @Column(length = 100)
+    var auditor: String? = null
 
     fun expire(cause: String) {
         this.status = false
