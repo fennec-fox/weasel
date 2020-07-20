@@ -1,7 +1,6 @@
 package io.mustelidae.weasel.paygate.domain.paygate
 
 import io.mustelidae.weasel.common.code.PayMethod
-import org.springframework.data.annotation.CreatedBy
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -10,6 +9,7 @@ import javax.persistence.EnumType.STRING
 import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
@@ -93,7 +93,7 @@ class PayGate(
     }
 
     enum class Currency {
-        KRW,USD
+        KRW, USD
     }
 
     companion object
