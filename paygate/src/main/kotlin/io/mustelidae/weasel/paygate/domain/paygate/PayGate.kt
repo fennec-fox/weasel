@@ -49,6 +49,8 @@ class PayGate(
     var cause: String? = null
         private set
 
+    val currency: Currency = Currency.KRW
+
     @CreatedDate
     var created: LocalDateTime? = null
         private set
@@ -81,6 +83,10 @@ class PayGate(
         INICIS,
         NAVER_PAY,
         KAKAO_PAY
+    }
+
+    enum class Currency {
+        KRW,USD
     }
 
     companion object
