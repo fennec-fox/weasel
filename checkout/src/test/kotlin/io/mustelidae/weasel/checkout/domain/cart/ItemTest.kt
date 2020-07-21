@@ -1,14 +1,32 @@
 package io.mustelidae.weasel.checkout.domain.cart
 
+import io.mustelidae.weasel.common.code.ProductType
 import java.time.LocalDateTime
 import kotlin.random.Random
 
 internal class ItemTest
 
-internal fun Item.Companion.aFixture(type: Item.Type): Item {
+internal fun Item.Companion.aFixture(type: ProductType): Item {
     val id = Random.nextInt().toString()
     return when (type) {
-        Item.Type.GOOD -> {
+        ProductType.CULTURE_TICKET -> {
+            Item(
+                type,
+                id,
+                "wwd 202x ticket",
+                1,
+                400,
+                "is ticket",
+                null,
+                null,
+                Item.Term(
+                    LocalDateTime.now().plusHours(1),
+                    LocalDateTime.now().plusHours(3)
+                )
+            )
+        }
+
+        else -> {
             Item(
                 type,
                 id,
@@ -24,22 +42,6 @@ internal fun Item.Companion.aFixture(type: Item.Type): Item {
                         "is option",
                         500
                     )
-                )
-            )
-        }
-        Item.Type.TICKET -> {
-            Item(
-                type,
-                id,
-                "wwd 202x ticket",
-                1,
-                400,
-                "is ticket",
-                null,
-                null,
-                Item.Term(
-                    LocalDateTime.now().plusHours(1),
-                    LocalDateTime.now().plusHours(3)
                 )
             )
         }

@@ -1,6 +1,7 @@
 package io.mustelidae.weasel.checkout.domain.cart
 
 import io.mustelidae.weasel.checkout.utils.nextString
+import io.mustelidae.weasel.common.code.ProductType
 import kotlin.random.Random
 
 internal class BasketTest
@@ -13,6 +14,6 @@ internal fun Basket.Companion.aFixture(
 ): Basket {
     return Basket(type, cpId, userId).apply {
         this.status = status
-        this.addBy(Item.aFixture(Item.Type.GOOD))
+        this.addBy(Item.aFixture(ProductType.GENERAL))
     }
 }

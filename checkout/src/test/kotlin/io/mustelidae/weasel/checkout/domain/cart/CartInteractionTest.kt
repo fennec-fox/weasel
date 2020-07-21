@@ -7,6 +7,7 @@ import io.mockk.mockk
 import io.mockk.slot
 import io.mustelidae.weasel.checkout.config.CheckoutCartException
 import io.mustelidae.weasel.checkout.domain.cart.repository.BasketRepository
+import io.mustelidae.weasel.common.code.ProductType
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -23,8 +24,8 @@ internal class CartInteractionTest {
         val userId = "fennec-fox"
         val basketType = Basket.Type.NORMAL
         val items = listOf(
-            Item.aFixture(Item.Type.GOOD),
-            Item.aFixture(Item.Type.TICKET)
+            Item.aFixture(ProductType.GENERAL),
+            Item.aFixture(ProductType.CULTURE_TICKET)
         )
 
         // When
@@ -56,7 +57,7 @@ internal class CartInteractionTest {
         val slot = slot<Basket>()
         every { basketRepository.save(capture(slot)) } returns Basket.aFixture() // returns는 mockk을 우회하기 위한 dummy 값임
 
-        cartInteraction.put(basket.id, Item.aFixture(Item.Type.TICKET))
+        cartInteraction.put(basket.id, Item.aFixture(ProductType.CULTURE_TICKET))
 
         // Then
         slot.isCaptured shouldBe true
@@ -78,7 +79,7 @@ internal class CartInteractionTest {
 
         // Then
         Assertions.assertThrows(CheckoutCartException::class.java) {
-            cartInteraction.put(basket.id, Item.aFixture(Item.Type.TICKET))
+            cartInteraction.put(basket.id, Item.aFixture(ProductType.CULTURE_TICKET))
         }
     }
 

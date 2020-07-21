@@ -1,10 +1,11 @@
 package io.mustelidae.weasel.checkout.domain.cart
 
 import io.mustelidae.weasel.checkout.utils.sumBy
+import io.mustelidae.weasel.common.code.ProductType
 import java.time.LocalDateTime
 
 class Item(
-    val type: Type,
+    val type: ProductType,
     val id: String,
     val name: String,
     var quantity: Int = 1,
@@ -14,10 +15,6 @@ class Item(
     var imageUrl: String? = null,
     val term: Term? = null
 ) {
-
-    enum class Type {
-        GOOD, TICKET
-    }
 
     data class Term(
         val start: LocalDateTime,
