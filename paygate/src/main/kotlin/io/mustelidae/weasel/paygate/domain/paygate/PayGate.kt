@@ -1,5 +1,6 @@
 package io.mustelidae.weasel.paygate.domain.paygate
 
+import io.mustelidae.weasel.common.code.Currency
 import io.mustelidae.weasel.common.code.PayMethod
 import java.time.LocalDateTime
 import javax.persistence.Column
@@ -90,10 +91,6 @@ class PayGate(
         INICIS,
         NAVER_PAY,
         KAKAO_PAY
-    }
-
-    enum class Currency {
-        KRW, USD
     }
 
     companion object

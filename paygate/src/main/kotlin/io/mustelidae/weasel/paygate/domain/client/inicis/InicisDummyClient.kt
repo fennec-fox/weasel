@@ -31,7 +31,7 @@ internal class InicisDummyClient(
             LocalDateTime.now(),
             request.storeId,
             "Weasel",
-            request.token.paymentAmount
+            request.token.paymentAmount.toLong()
         ).apply {
             credit = InicisResources.Reply.Paid.Credit(
                 CreditCode.AMEX.inicis,
@@ -40,7 +40,7 @@ internal class InicisDummyClient(
                 isInterestFree = false,
                 isCheckCard = true,
                 interestMonth = "10",
-                applyPrice = request.token.paymentAmount,
+                applyPrice = request.token.paymentAmount.toLong(),
                 approveCode = "1235143",
                 name = CreditCode.AMEX.name,
                 issuer = null,

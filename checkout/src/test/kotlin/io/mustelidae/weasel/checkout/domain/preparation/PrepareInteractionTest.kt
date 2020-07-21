@@ -11,6 +11,7 @@ import io.mustelidae.weasel.checkout.domain.cart.Cart
 import io.mustelidae.weasel.checkout.domain.cart.aFixture
 import io.mustelidae.weasel.checkout.domain.preparation.repository.PreparationRepository
 import io.mustelidae.weasel.checkout.utils.nextString
+import io.mustelidae.weasel.common.code.Currency
 import java.time.LocalDate
 import kotlin.random.Random
 import org.junit.jupiter.api.Test
@@ -31,12 +32,13 @@ internal class PrepareInteractionTest {
         val userId = Random.nextString(5)
         val cart = Cart.from(Basket.aFixture())
         val rewardDate = LocalDate.now()
+        val currency = Currency.KRW
 
         val slot = slot<Preparation>()
         every { preparationRepository.save(capture(slot)) } returns Preparation.aFixture() // returns는 mockk을 우회하기 위한 dummy 값임
 
         // When
-        val id = prepareInteraction.prepare(userId, cart, extraFields, rewardDate)
+        val id = prepareInteraction.prepare(userId, cart, currency, extraFields, rewardDate)
 
         // Then
         val preparation = slot.captured

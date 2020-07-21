@@ -7,7 +7,7 @@ data class PayToken(
     val orderId: String,
     val userId: String,
     val payGateId: Long,
-    val paymentAmount: Long
+    val paymentAmount: Double
 ) {
     private val timestamp: LocalDateTime = LocalDateTime.now()
 

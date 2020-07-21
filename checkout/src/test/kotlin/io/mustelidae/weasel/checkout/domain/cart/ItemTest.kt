@@ -15,7 +15,7 @@ internal fun Item.Companion.aFixture(type: ProductType): Item {
                 id,
                 "wwd 202x ticket",
                 1,
-                400,
+                400.0,
                 "is ticket",
                 null,
                 null,
@@ -32,15 +32,15 @@ internal fun Item.Companion.aFixture(type: ProductType): Item {
                 id,
                 "fixture item",
                 1,
-                1000,
+                1000.0,
                 "is fixure item",
                 listOf(
                     Item.Option(
                         Random.nextInt().toString(),
                         "option item",
                         1,
-                        "is option",
-                        500
+                        500.0,
+                        "is option"
                     )
                 )
             )

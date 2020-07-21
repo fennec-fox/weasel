@@ -9,13 +9,13 @@ class PayGateResources {
     data class Cancel(
         val transactionId: String,
         val isAdmin: Boolean,
-        val paidAmount: Long,
+        val paidAmount: Double,
         val cause: String? = null
     )
 
     data class Canceled(
         val canceledDate: LocalDateTime,
-        val remainAmount: Long,
+        val remainAmount: Double,
         val updatedTransactionId: String? = null
     ) {
         fun hasNewTransactionId(): Boolean {
@@ -26,15 +26,15 @@ class PayGateResources {
     data class PartialCancel(
         val transactionId: String,
         val isAdmin: Boolean,
-        val currentAmount: Long,
-        val cancelAmount: Long,
+        val currentAmount: Double,
+        val cancelAmount: Double,
         val cause: String? = null
     )
 
     data class Paid(
         val transactionId: String,
         val orderId: String,
-        val paymentAmount: Long,
+        val paymentAmount: Double,
         val canPartialCancel: Boolean,
         val payGateResultMessage: String,
         val methodInfos: List<MethodInfo>,
@@ -52,7 +52,7 @@ class PayGateResources {
             val id: String,
             val name: String,
             val quantity: Int,
-            val amount: Long
+            val amount: Double
         )
 
         var approvalUrl: String? = null

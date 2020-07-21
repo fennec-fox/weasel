@@ -65,7 +65,7 @@ internal class InicisPayGateCorp(
         return PayGateResources.Paid(
             paid.tid,
             paid.orderId,
-            paid.paymentAmount,
+            paid.paymentAmount.toDouble(),
             credit.canPartialCancel,
             "",
             methods,
@@ -80,12 +80,12 @@ internal class InicisPayGateCorp(
             InicisResources.Request.Cancel(
                 payGate.storeId,
                 cancel.transactionId,
-                cancel.paidAmount,
+                cancel.paidAmount.toLong(),
                 cancel.cause
             ))
         return PayGateResources.Canceled(
             canceled.canceledDate,
-            0
+            0.0
         )
     }
 
@@ -94,14 +94,14 @@ internal class InicisPayGateCorp(
             InicisResources.Request.Cancel(
                 payGate.storeId,
                 partialCancel.transactionId,
-                partialCancel.cancelAmount,
+                partialCancel.cancelAmount.toLong(),
                 partialCancel.cause
             ),
-            partialCancel.currentAmount
+            partialCancel.currentAmount.toLong()
         )
         return PayGateResources.Canceled(
             canceled.canceledDate,
-            canceled.remainAmount,
+            canceled.remainAmount.toDouble(),
             canceled.updatedTid
         )
     }

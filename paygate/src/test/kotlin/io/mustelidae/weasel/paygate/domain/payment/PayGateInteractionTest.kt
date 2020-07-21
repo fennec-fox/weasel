@@ -29,14 +29,14 @@ internal class PayGateInteractionTest {
             "1",
             "fennecInicis",
             payGate.id!!,
-            10000
+            10000.0
         )
         val certifyCreditAttribute = InicisResources.CertifyCreditAttribute().apply {
             P_TID = "1231414"
             P_STATUS = "00"
             P_RMESG1 = "OK"
             P_REQ_URL = "http://localhost/inicis/ok"
-            P_AMT = payToken.paymentAmount
+            P_AMT = payToken.paymentAmount.toLong()
         }
 
         // When
@@ -61,7 +61,7 @@ internal class PayGateInteractionTest {
         val cancel = PayGateResources.Cancel(
             "1234",
             true,
-            1000,
+            1000.0,
             "is test"
         )
         // When
@@ -73,7 +73,7 @@ internal class PayGateInteractionTest {
         canceled.asClue {
             it.updatedTransactionId shouldBe null
             it.hasNewTransactionId() shouldBe false
-            it.remainAmount shouldBe 0
+            it.remainAmount shouldBe 0.0
         }
     }
 
@@ -85,8 +85,8 @@ internal class PayGateInteractionTest {
         val partialCancel = PayGateResources.PartialCancel(
             "5678",
             false,
-            1000,
-            500,
+            1000.0,
+            500.0,
             "is test"
         )
         // When
@@ -98,7 +98,7 @@ internal class PayGateInteractionTest {
         canceled.asClue {
             it.updatedTransactionId shouldBe null
             it.hasNewTransactionId() shouldBe false
-            it.remainAmount shouldBe 500
+            it.remainAmount shouldBe 500.0
         }
     }
 }

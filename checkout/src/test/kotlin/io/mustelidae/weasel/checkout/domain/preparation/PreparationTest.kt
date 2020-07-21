@@ -3,6 +3,7 @@ package io.mustelidae.weasel.checkout.domain.preparation
 import io.mustelidae.weasel.checkout.domain.cart.Basket
 import io.mustelidae.weasel.checkout.domain.cart.aFixture
 import io.mustelidae.weasel.checkout.utils.nextString
+import io.mustelidae.weasel.common.code.Currency
 import io.mustelidae.weasel.common.code.PayMethod
 import java.time.LocalDate
 import kotlin.random.Random
@@ -15,7 +16,7 @@ internal fun Preparation.Companion.aFixture(
     rewardDate: LocalDate? = null,
     ignoreMethods: List<PayMethod>? = null
 ): Preparation {
-    return Preparation(userId, extraFields, rewardDate, ignoreMethods).apply {
+    return Preparation(userId, Currency.KRW, extraFields, rewardDate, ignoreMethods).apply {
         this.addBy(Basket.aFixture())
     }
 }

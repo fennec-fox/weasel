@@ -65,7 +65,7 @@ internal class KakaoPayPayGateCorp(
         return PayGateResources.Paid(
             paid.tid,
             paid.partnerOrderId,
-            paid.amount.total,
+            paid.amount.total.toDouble(),
             true,
             paid.paymentMethodType,
             methods,
@@ -81,11 +81,11 @@ internal class KakaoPayPayGateCorp(
             KakaoPayResources.Request.Cancel(
                 payGate.storeId,
                 cancel.transactionId,
-                cancel.paidAmount
+                cancel.paidAmount.toLong()
             ))
         return PayGateResources.Canceled(
             canceled.canceledAt,
-            0
+            0.0
         )
     }
 
@@ -94,13 +94,13 @@ internal class KakaoPayPayGateCorp(
             KakaoPayResources.Request.Cancel(
                 payGate.storeId,
                 partialCancel.transactionId,
-                partialCancel.cancelAmount
+                partialCancel.cancelAmount.toLong()
             ),
-            partialCancel.currentAmount
+            partialCancel.currentAmount.toLong()
         )
         return PayGateResources.Canceled(
             canceled.canceledAt,
-            0
+            0.0
         )
     }
 

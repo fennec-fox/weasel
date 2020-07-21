@@ -1,6 +1,5 @@
 package io.mustelidae.weasel.checkout.domain.cart
 
-import io.mustelidae.weasel.checkout.utils.sumBy
 import io.mustelidae.weasel.common.code.ProductType
 import java.time.LocalDateTime
 
@@ -9,7 +8,7 @@ class Item(
     val id: String,
     val name: String,
     var quantity: Int = 1,
-    val amount: Long? = null,
+    val amount: Double = 0.0,
     var description: String? = null,
     var options: List<Option>? = null,
     var imageUrl: String? = null,
@@ -25,19 +24,19 @@ class Item(
         val id: String,
         val name: String,
         var quantity: Int = 1,
+        val amount: Double = 0.0,
         val description: String? = null,
-        val amount: Long? = null,
         var imageUrl: String? = null,
         val term: Term? = null
     ) {
-        fun totalSumOfQuantity(): Long {
-            return (amount ?: 0) * quantity
+        fun totalSumOfQuantity(): Double {
+            return amount * quantity
         }
     }
 
-    fun totalSumOfQuantity(): Long {
-        val totalAmountOfItem = (amount ?: 0) * quantity
-        val totalAmountOfOptions = options?.sumBy { it.totalSumOfQuantity() } ?: 0
+    fun totalSumOfQuantity(): Double {
+        val totalAmountOfItem = amount * quantity
+        val totalAmountOfOptions = options?.sumByDouble { it.totalSumOfQuantity() } ?: 0.0
 
         return totalAmountOfItem + totalAmountOfOptions
     }

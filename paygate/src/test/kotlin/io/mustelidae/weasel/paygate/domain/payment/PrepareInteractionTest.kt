@@ -27,7 +27,7 @@ internal class PrepareInteractionTest {
             "1",
             "fennec-fox",
             payGate.id!!,
-            1000
+            1000.0
         )
         // When
         every { payGateFinder.findOne(payGate.id!!) } returns payGate
@@ -40,7 +40,7 @@ internal class PrepareInteractionTest {
                         "1",
                         "test",
                         1,
-                        1000
+                        1000.0
                     )
                 ),
                 PrepareProduct.Device.ANY

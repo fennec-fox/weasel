@@ -79,7 +79,7 @@ internal class NaverPayPayGateCorp(
         return PayGateResources.Paid(
             paid.paymentId,
             token.orderId,
-            paid.detail.totalPayAmount,
+            paid.detail.totalPayAmount.toDouble(),
             true,
             paid.detail.admissionState,
             methods,
@@ -96,13 +96,13 @@ internal class NaverPayPayGateCorp(
                 payGate.storeKey ?: throw PayGateException("naver pay must storeKey"),
                 cancel.transactionId,
                 cancel.isAdmin,
-                cancel.paidAmount,
+                cancel.paidAmount.toLong(),
                 cancel.cause
             )
         )
         return PayGateResources.Canceled(
             canceled.detail.getCanceledDate(),
-            0
+            0.0
         )
     }
 
@@ -113,15 +113,15 @@ internal class NaverPayPayGateCorp(
                 payGate.storeKey ?: throw PayGateException("naver pay must storeKey"),
                 partialCancel.transactionId,
                 partialCancel.isAdmin,
-                partialCancel.cancelAmount,
+                partialCancel.cancelAmount.toLong(),
                 partialCancel.cause
             ),
-            partialCancel.currentAmount
+            partialCancel.currentAmount.toLong()
         )
 
         return PayGateResources.Canceled(
             canceled.detail.getCanceledDate(),
-            canceled.detail.totalRestAmount
+            canceled.detail.totalRestAmount.toDouble()
         )
     }
 

@@ -2,6 +2,7 @@ package io.mustelidae.weasel.checkout.domain.preparation
 
 import io.mustelidae.weasel.checkout.config.CheckoutCartException
 import io.mustelidae.weasel.checkout.domain.cart.Basket
+import io.mustelidae.weasel.common.code.Currency
 import io.mustelidae.weasel.common.code.PayMethod
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -13,6 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document
 class Preparation(
     val purchaseUserUd: String,
+    val currency: Currency,
     val extraFields: Map<String, String?> = emptyMap(),
     val rewardDate: LocalDate? = null,
     val ignoreMethods: List<PayMethod>? = null

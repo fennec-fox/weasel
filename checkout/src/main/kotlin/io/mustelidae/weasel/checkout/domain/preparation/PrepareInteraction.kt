@@ -4,6 +4,7 @@ import io.mustelidae.weasel.checkout.config.CheckoutException
 import io.mustelidae.weasel.checkout.domain.cart.BasketFinder
 import io.mustelidae.weasel.checkout.domain.cart.Cart
 import io.mustelidae.weasel.checkout.domain.preparation.repository.PreparationRepository
+import io.mustelidae.weasel.common.code.Currency
 import io.mustelidae.weasel.common.code.PayMethod
 import java.time.LocalDate
 import org.bson.types.ObjectId
@@ -19,11 +20,12 @@ class PrepareInteraction(
     fun prepare(
         userId: String,
         cart: Cart,
+        currency: Currency,
         extraFields: Map<String, String?> = emptyMap(),
         rewardDate: LocalDate? = null,
         ignoreMethods: List<PayMethod>? = null
     ): ObjectId {
-        val preparation = Preparation(userId, extraFields, rewardDate, ignoreMethods).apply {
+        val preparation = Preparation(userId, currency, extraFields, rewardDate, ignoreMethods).apply {
             addBy(cart.basket)
         }
         preparationRepository.save(preparation)
@@ -33,12 +35,13 @@ class PrepareInteraction(
     fun prepare(
         userId: String,
         basketId: ObjectId,
+        currency: Currency,
         extraFields: Map<String, String?> = emptyMap(),
         rewardDate: LocalDate? = null,
         ignoreMethods: List<PayMethod>? = null
     ): ObjectId {
         val basket = basketFinder.findOrThrow(basketId)
-        val preparation = Preparation(userId, extraFields, rewardDate, ignoreMethods).apply {
+        val preparation = Preparation(userId, currency, extraFields, rewardDate, ignoreMethods).apply {
             addBy(basket)
         }
 
@@ -49,11 +52,12 @@ class PrepareInteraction(
     fun prepareWithCarts(
         userId: String,
         carts: List<Cart>,
+        currency: Currency,
         extraFields: Map<String, String?> = emptyMap(),
         rewardDate: LocalDate? = null,
         ignoreMethods: List<PayMethod>? = null
     ): ObjectId {
-        val preparation = Preparation(userId, extraFields, rewardDate, ignoreMethods)
+        val preparation = Preparation(userId, currency, extraFields, rewardDate, ignoreMethods)
         carts.forEach { preparation.addBy(it.basket) }
         preparationRepository.save(preparation)
         return preparation.id
@@ -62,6 +66,7 @@ class PrepareInteraction(
     fun prepareWithBasketIds(
         userId: String,
         basketIds: List<ObjectId>,
+        currency: Currency,
         extraFields: Map<String, String?> = emptyMap(),
         rewardDate: LocalDate? = null,
         ignoreMethods: List<PayMethod>? = null
@@ -71,7 +76,7 @@ class PrepareInteraction(
         if (baskets.isEmpty())
             throw CheckoutException("결제를 할 대상이 존재하지 않습니다.")
 
-        val preparation = Preparation(userId, extraFields, rewardDate, ignoreMethods)
+        val preparation = Preparation(userId, currency, extraFields, rewardDate, ignoreMethods)
         baskets.forEach { preparation.addBy(it) }
 
         preparationRepository.save(preparation)

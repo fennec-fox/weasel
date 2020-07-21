@@ -80,7 +80,7 @@ internal class KakaoPayDummyClient(
          "item_name": "초코파이",
          "quantity": 1,
          "amount": {
-          "total": ${request.token.paymentAmount},
+          "total": ${request.token.paymentAmount.toLong()},
           "tax_free": 0,
           "vat": ${request.token.paymentAmount / 0.1},
           "point": 0
