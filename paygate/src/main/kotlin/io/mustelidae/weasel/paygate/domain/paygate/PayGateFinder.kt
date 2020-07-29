@@ -2,6 +2,7 @@ package io.mustelidae.weasel.paygate.domain.paygate
 
 import io.mustelidae.weasel.common.code.PayMethod
 import io.mustelidae.weasel.paygate.config.PayGateException
+import io.mustelidae.weasel.paygate.domain.paygate.repository.PayGateDSLRepository
 import io.mustelidae.weasel.paygate.domain.paygate.repository.PayGateRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -10,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional(readOnly = true)
 class PayGateFinder(
-    private val payGateRepository: PayGateRepository
+    private val payGateRepository: PayGateRepository,
+    private val payGateDSLRepository: PayGateDSLRepository
 ) {
 
     fun findOrThrow(id: Long): PayGate {
@@ -18,6 +20,10 @@ class PayGateFinder(
         if (payGate == null || payGate.status.not())
             throw PayGateException("존재 하지 않는 PG id 입니다.")
         return payGate
+    }
+
+    fun findUnderContract(id: Long): PayGate {
+        return payGateDSLRepository.findPayGateUnderContact(id)
     }
 
     fun findAll(): List<PayGate> {
