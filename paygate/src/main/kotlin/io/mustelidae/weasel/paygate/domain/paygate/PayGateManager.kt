@@ -19,11 +19,14 @@ class PayGateManager(
         if (isExist)
             throw PayGateException("이미 해당 회사의 결제 수단 및 타입이 존재 합니다.")
 
+        if (payGate.rateContracts.isEmpty())
+            throw PayGateException("계약 정보가 존재하지 않습니다.")
+
         return payGateRepository.save(payGate).id!!
     }
 
     fun modify(id: Long, name: String, ratio: Double) {
-        val payGate = payGateFinder.findOne(id)
+        val payGate = payGateFinder.findOrThrow(id)
 
         payGate.apply {
             this.name = name
@@ -34,7 +37,7 @@ class PayGateManager(
     }
 
     fun expire(id: Long, cause: String) {
-        val payGate = payGateFinder.findOne(id)
+        val payGate = payGateFinder.findOrThrow(id)
         payGate.expire(cause)
         payGateRepository.save(payGate)
     }

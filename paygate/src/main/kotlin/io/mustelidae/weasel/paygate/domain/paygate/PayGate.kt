@@ -1,8 +1,8 @@
 package io.mustelidae.weasel.paygate.domain.paygate
 
-import io.mustelidae.weasel.common.code.Currency
 import io.mustelidae.weasel.common.code.PayMethod
 import java.time.LocalDateTime
+import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EntityListeners
@@ -10,9 +10,8 @@ import javax.persistence.EnumType.STRING
 import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
-import org.springframework.data.annotation.CreatedBy
+import javax.persistence.OneToMany
 import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 
@@ -52,8 +51,6 @@ class PayGate(
     var cause: String? = null
         private set
 
-    val currency: Currency = Currency.KRW
-
     @CreatedDate
     var created: LocalDateTime? = null
         private set
@@ -62,10 +59,14 @@ class PayGate(
     var modified: LocalDateTime? = null
         private set
 
-    @CreatedBy
-    @LastModifiedBy
-    @Column(length = 100)
-    var auditor: String? = null
+    @OneToMany(mappedBy = "payGate", cascade = [ALL])
+    var rateContracts: MutableList<RateContract> = arrayListOf()
+
+    fun addBy(rateContract: RateContract) {
+        rateContracts.add(rateContract)
+        if (rateContract.payGate != this)
+            rateContract.setBy(this)
+    }
 
     fun expire(cause: String) {
         this.status = false

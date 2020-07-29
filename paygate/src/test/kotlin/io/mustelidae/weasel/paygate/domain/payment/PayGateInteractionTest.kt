@@ -40,7 +40,7 @@ internal class PayGateInteractionTest {
         }
 
         // When
-        every { payGateFinder.findOne(payGate.id!!) } returns payGate
+        every { payGateFinder.findOrThrow(payGate.id!!) } returns payGate
         val paid = payGateInteraction.payByTokenPayGateId(payToken, certifyCreditAttribute)
 
         // Then
@@ -65,7 +65,7 @@ internal class PayGateInteractionTest {
             "is test"
         )
         // When
-        every { payGateFinder.findOne(payGate.id!!) } returns payGate
+        every { payGateFinder.findOrThrow(payGate.id!!) } returns payGate
         every { payGateFinder.findOneWithExpired(payGate.id!!) } returns payGate
 
         val canceled = payGateInteraction.cancel(payGate.id!!, cancel)
@@ -90,7 +90,7 @@ internal class PayGateInteractionTest {
             "is test"
         )
         // When
-        every { payGateFinder.findOne(payGate.id!!) } returns payGate
+        every { payGateFinder.findOrThrow(payGate.id!!) } returns payGate
         every { payGateFinder.findOneWithExpired(payGate.id!!) } returns payGate
 
         val canceled = payGateInteraction.partialCancel(payGate.id!!, partialCancel)

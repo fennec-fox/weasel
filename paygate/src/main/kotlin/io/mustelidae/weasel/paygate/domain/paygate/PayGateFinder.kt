@@ -13,7 +13,7 @@ class PayGateFinder(
     private val payGateRepository: PayGateRepository
 ) {
 
-    fun findOne(id: Long): PayGate {
+    fun findOrThrow(id: Long): PayGate {
         val payGate = payGateRepository.findByIdOrNull(id)
         if (payGate == null || payGate.status.not())
             throw PayGateException("존재 하지 않는 PG id 입니다.")

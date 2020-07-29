@@ -30,7 +30,7 @@ internal class PrepareInteractionTest {
             1000.0
         )
         // When
-        every { payGateFinder.findOne(payGate.id!!) } returns payGate
+        every { payGateFinder.findOrThrow(payGate.id!!) } returns payGate
 
         val prepared = prepareInteraction.kakaoPay(
             PrepareProduct(

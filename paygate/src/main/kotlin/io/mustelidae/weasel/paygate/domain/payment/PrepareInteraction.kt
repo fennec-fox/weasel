@@ -18,7 +18,7 @@ class PrepareInteraction(
 
     fun kakaoPay(product: PayGateResources.PrepareProduct): PayGateResources.Prepared {
         val client = clientHandler.kakaoPay()
-        val payGate = payGateFinder.findOne(product.token.payGateId)
+        val payGate = payGateFinder.findOrThrow(product.token.payGateId)
 
         if (payGate.company != PayGate.Company.KAKAO_PAY)
             throw PayGateException("결제수단이 카카오 페이가 아닙니다.")

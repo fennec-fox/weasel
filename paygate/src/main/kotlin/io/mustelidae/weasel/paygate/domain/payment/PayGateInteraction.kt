@@ -45,7 +45,7 @@ class PayGateInteraction(
         reassignedPayGateId: Long
     ): PayGateResources.Paid {
         val payGateCorp = payGateCompanyHandler.getCorp(reassignedPayGateId)
-        val payGateOfToken = payGateFinder.findOne(token.payGateId)
+        val payGateOfToken = payGateFinder.findOrThrow(token.payGateId)
 
         if (payGateCorp.payGate.company != payGateOfToken.company)
             throw PayGateException("결제 시 선택한 PG와 결제를 진행하려는 PG가 다른 회사입니다.")

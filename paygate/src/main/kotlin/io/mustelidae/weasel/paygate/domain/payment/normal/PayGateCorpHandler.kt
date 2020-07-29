@@ -12,7 +12,7 @@ internal class PayGateCorpHandler(
     private val clientHandler = ClientHandler(payGateEnvironment)
 
     fun getCorp(payGateId: Long): PayGateCorp {
-        val payGate = payGateFinder.findOne(payGateId)
+        val payGate = payGateFinder.findOrThrow(payGateId)
         return this.getCorp(payGate)
     }
 

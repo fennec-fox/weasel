@@ -44,6 +44,7 @@ allprojects {
         plugin("org.jmailen.kotlinter")
         plugin("kotlin-jpa")
         plugin("kotlin-spring")
+        plugin("kotlin-kapt")
     }
 
     repositories {
