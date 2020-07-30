@@ -26,6 +26,7 @@ internal class PayGateInteractionTest {
         val payGateInteraction = PayGateInteraction(payGateFinder, payGateEnvironment)
         val payGate = PayGate.aFixture(PayGate.Company.INICIS)
         val payToken = PayToken(
+            1,
             "1",
             "fennecInicis",
             payGate.id!!,

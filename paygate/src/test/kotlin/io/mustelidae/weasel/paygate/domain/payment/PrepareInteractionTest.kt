@@ -24,6 +24,7 @@ internal class PrepareInteractionTest {
         val prepareInteraction = PrepareInteraction(payGateFinder, payGateEnvironment)
         val payGate = PayGate.aFixture(PayGate.Company.KAKAO_PAY)
         val payToken = PayToken(
+            1,
             "1",
             "fennec-fox",
             payGate.id!!,

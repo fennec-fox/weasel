@@ -17,7 +17,7 @@ internal class KakaoPayDummyClientTest {
     @Test
     fun prepare() {
         // Given
-        val token = PayToken("1", "1,", 1, 1000.0)
+        val token = PayToken(1, "1", "1,", 1, 1000.0)
         val request = KakaoPayResources.Request.Prepare(
             token,
             "1",
@@ -36,7 +36,7 @@ internal class KakaoPayDummyClientTest {
     @Test
     fun pay() {
         // Given
-        val token = PayToken("1", "1,", 1, 1000.0)
+        val token = PayToken(1, "1", "1,", 1, 1000.0)
         val tid = "1"
         val request = KakaoPayResources.Request.Pay(
             token,

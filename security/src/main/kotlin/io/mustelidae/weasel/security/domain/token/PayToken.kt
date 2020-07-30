@@ -4,6 +4,7 @@ import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 data class PayToken(
+    val cpId: Long,
     val orderId: String,
     val userId: String,
     val payGateId: Long,
