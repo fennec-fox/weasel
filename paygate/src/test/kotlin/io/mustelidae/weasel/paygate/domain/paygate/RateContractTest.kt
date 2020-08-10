@@ -11,5 +11,5 @@ internal fun RateContract.Companion.aFixture(
     end: LocalDate = LocalDate.now().plusDays(1),
     feeRate: Double = 0.03
 ): RateContract {
-    return RateContract(start, end, feeRate).apply { invokeId(this, Random.nextLong()) }
+    return RateContract(RateContract.Type.METHOD, start, end, feeRate).apply { invokeId(this, Random.nextLong()) }
 }

@@ -20,6 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 @Entity
 @EntityListeners(value = [AuditingEntityListener::class])
 class RateContract(
+    val type: Type,
     val start: LocalDate,
     val end: LocalDate,
     val feeRate: Double,
@@ -59,6 +60,11 @@ class RateContract(
 
     fun expire() {
         status = false
+    }
+
+    enum class Type {
+        METHOD,
+        POINT
     }
 
     companion object

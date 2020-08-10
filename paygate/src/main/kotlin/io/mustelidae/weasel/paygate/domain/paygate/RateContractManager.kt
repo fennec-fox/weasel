@@ -20,6 +20,9 @@ class RateContractManager(
         val payGate = payGateFinder.findOrThrow(payGateId)
 
         val rateContracts = payGate.rateContracts
+            .filter { it.type == rateContract.type }
+            .toMutableList()
+
         rateContracts.sortBy { it.end }
 
         val lastContract = rateContracts.last()
